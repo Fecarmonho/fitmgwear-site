@@ -1,0 +1,2616 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FIT MG WEAR — Moda Fitness de Alta Performance</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      :root {
+        --bg: #f7f4ef;
+        --bg2: #eeeae2;
+        --dark: #111111;
+        --dark2: #1e1e1e;
+        --gold: #c8922a;
+        --gold2: #e8b84b;
+        --gold-light: #f5e6c8;
+        --white: #ffffff;
+        --text: #111111;
+        --text2: #555555;
+        --text3: #888888;
+        --border: #e0d9ce;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: "Montserrat", sans-serif;
+        overflow-x: hidden;
+      }
+
+      /* NAV */
+      nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 500;
+        padding: 16px 60px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: rgba(247, 244, 239, 0.95);
+        backdrop-filter: blur(16px);
+        border-bottom: 1px solid var(--border);
+        transition: all 0.3s;
+      }
+      nav.scrolled {
+        padding: 11px 60px;
+        box-shadow: 0 2px 20px rgba(0, 0, 0, 0.07);
+      }
+      .nav-logo {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        text-decoration: none;
+      }
+      .nav-logo-img {
+        width: 44px;
+        height: 44px;
+        object-fit: contain;
+        display: block;
+      }
+      .nav-logo-text {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: 19px;
+        letter-spacing: 3px;
+        color: var(--dark);
+      }
+      .nav-links {
+        display: flex;
+        gap: 28px;
+        list-style: none;
+      }
+      .nav-links a {
+        color: var(--text2);
+        font-size: 11px;
+        font-weight: 600;
+        text-decoration: none;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        transition: color 0.2s;
+        position: relative;
+      }
+      .nav-links a::after {
+        content: "";
+        position: absolute;
+        bottom: -4px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: var(--gold);
+        transition: width 0.3s;
+      }
+      .nav-links a:hover {
+        color: var(--gold);
+      }
+      .nav-links a:hover::after {
+        width: 100%;
+      }
+      .nav-cta {
+        background: var(--dark);
+        color: #fff;
+        padding: 9px 20px;
+        border-radius: 6px;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        text-decoration: none;
+        transition: all 0.2s;
+      }
+      .nav-cta:hover {
+        background: var(--gold);
+      }
+      .hamburger {
+        display: none;
+        flex-direction: column;
+        gap: 5px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 4px;
+      }
+      .hamburger span {
+        width: 22px;
+        height: 2px;
+        background: var(--dark);
+        border-radius: 2px;
+        display: block;
+        transition: all 0.3s;
+      }
+
+      /* MOBILE MENU */
+      .mobile-menu {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: var(--white);
+        z-index: 490;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 24px;
+      }
+      .mobile-menu.open {
+        display: flex;
+      }
+      .mobile-menu a {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: 42px;
+        letter-spacing: 3px;
+        color: var(--dark);
+        text-decoration: none;
+      }
+      .mobile-menu a:hover {
+        color: var(--gold);
+      }
+      .mobile-close {
+        position: absolute;
+        top: 20px;
+        right: 24px;
+        font-size: 26px;
+        cursor: pointer;
+        background: none;
+        border: none;
+        color: var(--dark);
+        font-family: sans-serif;
+      }
+
+      /* ===================== HERO CAROUSEL ===================== */
+      .hero-carousel {
+        position: relative;
+        width: 100%;
+        height: 100vh;
+        min-height: 620px;
+        overflow: hidden;
+        margin-top: 0;
+      }
+
+      /* Slides */
+      .carousel-track {
+        display: flex;
+        height: 100%;
+        transition: transform 0.7s cubic-bezier(0.77, 0, 0.175, 1);
+      }
+      .carousel-slide {
+        min-width: 100%;
+        height: 100%;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+      }
+
+      /* Slide backgrounds (placeholders — troque por <img> quando tiver as fotos) */
+      .carousel-slide:nth-child(1) {
+        background: linear-gradient(135deg, #1a1a1a 0%, #2e1f0a 60%, #111 100%);
+      }
+      .carousel-slide:nth-child(2) {
+        background: linear-gradient(135deg, #0e1c24 0%, #1a2e20 60%, #111 100%);
+      }
+      .carousel-slide:nth-child(3) {
+        background: linear-gradient(135deg, #1c1228 0%, #2a1a12 60%, #111 100%);
+      }
+
+      /* Photo inside slide */
+      .slide-photo {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center 30%; /* padrão */
+      }
+      .slide-photo-1 {
+        object-position: center top;
+      }
+      .slide-photo-2 {
+        object-position: center 10%;
+      }
+      .slide-photo-3 {
+        object-position: center top%;
+      }
+      .slide-photo-4 {
+        object-position: center 30%;
+      }
+      .slide-photo-5 {
+        object-position: center 60%;
+      }
+
+      @media (max-width: 640px) {
+        .slide-photo {
+          object-position: 65% top;
+        }
+      }
+      /* Overlay gradient on top of photo */
+      .carousel-slide::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          90deg,
+          rgba(0, 0, 0, 0.72) 0%,
+          rgba(0, 0, 0, 0.38) 50%,
+          rgba(0, 0, 0, 0.12) 100%
+        );
+        z-index: 1;
+      }
+
+      /* Placeholder visual (remove when photos added) */
+      .slide-placeholder {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        padding-right: 6vw;
+        z-index: 0;
+      }
+      .slide-placeholder-icon {
+        font-size: clamp(120px, 18vw, 260px);
+        opacity: 0.12;
+        user-select: none;
+        filter: grayscale(1);
+      }
+
+      /* Slide text content */
+      .slide-content {
+        position: relative;
+        z-index: 2;
+        width: 100%;
+        max-width: 1200px;
+        padding: 0 60px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .slide-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: rgba(200, 146, 42, 0.15);
+        border: 1px solid rgba(200, 146, 42, 0.4);
+        border-radius: 99px;
+        padding: 6px 16px;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        color: var(--gold2);
+        margin-bottom: 20px;
+        opacity: 0;
+        transform: translateY(20px);
+        transition:
+          opacity 0.5s 0.1s,
+          transform 0.5s 0.1s;
+      }
+      .slide-badge-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--gold2);
+        animation: pulse 2s infinite;
+      }
+      .slide-title {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: clamp(56px, 8vw, 120px);
+        line-height: 0.9;
+        letter-spacing: 1px;
+        color: #fff;
+        margin-bottom: 20px;
+        opacity: 0;
+        transform: translateY(28px);
+        transition:
+          opacity 0.5s 0.2s,
+          transform 0.5s 0.2s;
+      }
+      .slide-title .gold {
+        color: var(--gold2);
+      }
+      .slide-desc {
+        font-size: 15px;
+        color: rgba(255, 255, 255, 0.65);
+        line-height: 1.75;
+        max-width: 480px;
+        margin-bottom: 32px;
+        opacity: 0;
+        transform: translateY(20px);
+        transition:
+          opacity 0.5s 0.3s,
+          transform 0.5s 0.3s;
+      }
+      .slide-btns {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        opacity: 0;
+        transform: translateY(20px);
+        transition:
+          opacity 0.5s 0.4s,
+          transform 0.5s 0.4s;
+      }
+
+      /* Active slide animations */
+      .carousel-slide.active .slide-badge,
+      .carousel-slide.active .slide-title,
+      .carousel-slide.active .slide-desc,
+      .carousel-slide.active .slide-btns {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* Buttons */
+      .btn-dark {
+        background: var(--dark);
+        color: #fff;
+        padding: 14px 30px;
+        border-radius: 6px;
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        text-decoration: none;
+        transition: all 0.25s;
+        border: none;
+        cursor: pointer;
+        display: inline-block;
+      }
+      .btn-dark:hover {
+        background: var(--gold);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba(200, 146, 42, 0.3);
+      }
+      .btn-border {
+        background: transparent;
+        color: #fff;
+        padding: 14px 30px;
+        border-radius: 6px;
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        text-decoration: none;
+        border: 2px solid rgba(255, 255, 255, 0.5);
+        transition: all 0.25s;
+        display: inline-block;
+      }
+      .btn-border:hover {
+        border-color: var(--gold2);
+        color: var(--gold2);
+      }
+
+      /* Stats overlay */
+      .carousel-stats {
+        position: absolute;
+        bottom: 40px;
+        left: 60px;
+        z-index: 3;
+        display: flex;
+        gap: 36px;
+      }
+      .cstat {
+      }
+      .cstat-num {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: 30px;
+        color: var(--gold2);
+        line-height: 1;
+      }
+      .cstat-label {
+        font-size: 10px;
+        color: rgba(255, 255, 255, 0.45);
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        margin-top: 2px;
+      }
+
+      /* Carousel controls */
+      .carousel-prev,
+      .carousel-next {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 4;
+        width: 48px;
+        height: 48px;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 50%;
+        color: #fff;
+        font-size: 18px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s;
+        backdrop-filter: blur(4px);
+      }
+      .carousel-prev {
+        left: 24px;
+      }
+      .carousel-next {
+        right: 24px;
+      }
+      .carousel-prev:hover,
+      .carousel-next:hover {
+        background: var(--gold);
+        border-color: var(--gold);
+      }
+
+      /* Dots */
+      .carousel-dots {
+        position: absolute;
+        bottom: 44px;
+        right: 60px;
+        z-index: 4;
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+      .carousel-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 4px;
+        background: rgba(255, 255, 255, 0.3);
+        cursor: pointer;
+        transition: all 0.3s;
+        border: none;
+      }
+      .carousel-dot.active {
+        width: 28px;
+        background: var(--gold2);
+      }
+
+      /* Progress bar */
+      .carousel-progress {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        height: 3px;
+        background: var(--gold);
+        z-index: 4;
+        width: 0%;
+        transition: width linear;
+      }
+
+      /* MARQUEE */
+      .marquee-wrap {
+        background: var(--dark);
+        padding: 14px 0;
+        overflow: hidden;
+      }
+      .marquee-track {
+        display: flex;
+        animation: marquee 22s linear infinite;
+        width: max-content;
+      }
+      .m-item {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: 15px;
+        letter-spacing: 3px;
+        color: rgba(255, 255, 255, 0.45);
+        padding: 0 28px;
+        white-space: nowrap;
+      }
+      .m-item.gold {
+        color: var(--gold2);
+      }
+
+      /* SECTIONS */
+      .sec {
+        padding: 96px 60px;
+      }
+      .sec-inner {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+      .sec-tag {
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 2.5px;
+        text-transform: uppercase;
+        color: var(--gold);
+        margin-bottom: 14px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .sec-tag::before {
+        content: "";
+        width: 28px;
+        height: 2px;
+        background: var(--gold);
+        border-radius: 2px;
+        flex-shrink: 0;
+      }
+      .sec-title {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: clamp(40px, 5vw, 68px);
+        line-height: 1;
+        color: var(--dark);
+      }
+      .sec-title .gold {
+        color: var(--gold);
+      }
+
+      /* SOBRE */
+      .sobre {
+        background: var(--white);
+      }
+      .sobre-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 72px;
+        align-items: center;
+      }
+      .sobre-text {
+        font-size: 15px;
+        line-height: 1.85;
+        color: var(--text2);
+        margin-top: 18px;
+      }
+      .socias {
+        display: flex;
+        gap: 14px;
+        margin-top: 32px;
+      }
+      .socia {
+        flex: 1;
+        background: var(--bg);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 18px 20px;
+        transition: all 0.25s;
+      }
+      .socia:hover {
+        border-color: var(--gold);
+        background: var(--gold-light);
+        transform: translateY(-3px);
+      }
+      .socia-emoji {
+        font-size: 26px;
+        margin-bottom: 8px;
+      }
+      .socia-nome {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: 20px;
+        letter-spacing: 2px;
+        color: var(--dark);
+      }
+      .socia-cargo {
+        font-size: 11px;
+        color: var(--text3);
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        margin-top: 2px;
+      }
+      .sobre-box {
+        background: var(--bg2);
+        border-radius: 18px;
+        padding: 48px 40px;
+        min-height: 440px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+      }
+      .sobre-box-logo {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: 150px;
+        color: rgba(0, 0, 0, 0.06);
+        letter-spacing: -6px;
+        user-select: none;
+        line-height: 1;
+      }
+      .sobre-box-badge {
+        position: absolute;
+        bottom: 24px;
+        left: 24px;
+        right: 24px;
+        background: var(--dark);
+        border-radius: 12px;
+        padding: 16px 20px;
+      }
+      .sobre-box-badge-title {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: 17px;
+        letter-spacing: 2px;
+        color: var(--gold2);
+      }
+      .sobre-box-badge-sub {
+        font-size: 12px;
+        color: rgba(255, 255, 255, 0.45);
+        margin-top: 3px;
+      }
+      .sobre-box-pill {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background: var(--gold);
+        color: #000;
+        font-size: 11px;
+        font-weight: 800;
+        padding: 5px 14px;
+        border-radius: 99px;
+      }
+
+      /* DIFERENCIAIS */
+      .dif {
+        background: var(--bg);
+      }
+      .dif-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 16px;
+        margin-top: 50px;
+      }
+      .dif-card {
+        background: var(--white);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 28px 24px;
+        transition: all 0.25s;
+        position: relative;
+        overflow: hidden;
+      }
+      .dif-card:hover {
+        border-color: var(--gold);
+        transform: translateY(-4px);
+        box-shadow: 0 10px 28px rgba(0, 0, 0, 0.07);
+      }
+      .dif-card::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: var(--gold);
+        transform: scaleX(0);
+        transition: transform 0.3s;
+        transform-origin: left;
+      }
+      .dif-card:hover::after {
+        transform: scaleX(1);
+      }
+      .dif-num {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: 56px;
+        color: rgba(0, 0, 0, 0.04);
+        position: absolute;
+        top: 6px;
+        right: 12px;
+        line-height: 1;
+      }
+      .dif-icon {
+        font-size: 32px;
+        margin-bottom: 16px;
+      }
+      .dif-title {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: 20px;
+        letter-spacing: 1px;
+        color: var(--dark);
+        margin-bottom: 8px;
+      }
+      .dif-desc {
+        font-size: 13px;
+        color: var(--text2);
+        line-height: 1.7;
+      }
+
+      /* PRODUTOS */
+      .produtos {
+        background: var(--white);
+      }
+      .produtos-top {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 16px;
+        flex-wrap: wrap;
+        margin-bottom: 40px;
+      }
+      .prods-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 18px;
+      }
+      .prod {
+        background: var(--bg);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        overflow: hidden;
+        transition: all 0.3s;
+      }
+      .prod:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 14px 40px rgba(0, 0, 0, 0.09);
+        border-color: var(--gold);
+      }
+      .prod-thumb {
+        aspect-ratio: 4/3;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 72px;
+        position: relative;
+        overflow: hidden;
+      }
+      .prod-pill {
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        background: var(--dark);
+        color: var(--gold2);
+        font-size: 10px;
+        font-weight: 800;
+        letter-spacing: 1px;
+        padding: 4px 10px;
+        border-radius: 99px;
+      }
+      .prod-body {
+        padding: 20px 22px 24px;
+      }
+      .prod-cat {
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 2px;
+        color: var(--gold);
+        text-transform: uppercase;
+        margin-bottom: 6px;
+      }
+      .prod-name {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: 24px;
+        letter-spacing: 1px;
+        color: var(--dark);
+        margin-bottom: 8px;
+      }
+      .prod-desc {
+        font-size: 13px;
+        color: var(--text2);
+        line-height: 1.65;
+        margin-bottom: 18px;
+      }
+      .prod-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        background: var(--dark);
+        color: #fff;
+        padding: 10px 18px;
+        border-radius: 7px;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 1px;
+        text-decoration: none;
+        text-transform: uppercase;
+        transition: all 0.2s;
+      }
+      .prod-btn:hover {
+        background: var(--gold);
+      }
+      .prod-btn svg {
+        width: 13px;
+        height: 13px;
+        transition: transform 0.2s;
+      }
+      .prod:hover .prod-btn svg {
+        transform: translateX(3px);
+      }
+      .prod-wide {
+        grid-column: span 2;
+      }
+      .prod-wide .prod-thumb {
+        aspect-ratio: auto;
+        min-height: 200px;
+      }
+      .prod-wide-inner {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+      }
+      .prod-wide .prod-body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      /* GALERIA */
+      .galeria {
+        background: var(--dark);
+        padding: 80px 0;
+        overflow: hidden;
+      }
+      .galeria-head {
+        padding: 0 60px;
+        max-width: 1200px;
+        margin: 0 auto 44px;
+      }
+      .galeria-head .sec-tag {
+        color: var(--gold2);
+      }
+      .galeria-head .sec-tag::before {
+        background: var(--gold2);
+      }
+      .galeria-head .sec-title {
+        color: #fff;
+      }
+      .galeria-head .sec-title .gold {
+        color: var(--gold2);
+      }
+      .galeria-head p {
+        color: rgba(255, 255, 255, 0.45);
+        font-size: 13px;
+        margin-top: 10px;
+      }
+      .galeria-head a {
+        color: var(--gold2);
+        text-decoration: none;
+      }
+      .g-row {
+        display: flex;
+        gap: 14px;
+        animation: marquee 28s linear infinite;
+        width: max-content;
+      }
+      .g-row.rev {
+        animation-direction: reverse;
+        animation-duration: 34s;
+        margin-top: 14px;
+      }
+      .g-item {
+        width: 240px;
+        height: 300px;
+        border-radius: 12px;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 64px;
+        background: var(--dark2);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+      }
+      .galeria-cta {
+        text-align: center;
+        padding: 36px 60px 0;
+      }
+      .btn-white-border {
+        display: inline-flex;
+        align-items: center;
+        gap: 9px;
+        background: transparent;
+        color: #fff;
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        padding: 13px 26px;
+        border-radius: 8px;
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        text-decoration: none;
+        transition: all 0.2s;
+      }
+      .btn-white-border:hover {
+        border-color: var(--gold2);
+        color: var(--gold2);
+      }
+      .btn-white-border svg {
+        width: 17px;
+        height: 17px;
+      }
+
+      /* DEPOIMENTOS */
+      .deps {
+        background: var(--bg);
+      }
+      .dep-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 18px;
+        margin-top: 50px;
+      }
+      .dep {
+        background: var(--white);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 28px;
+        transition: all 0.25s;
+        position: relative;
+      }
+      .dep:hover {
+        border-color: var(--gold);
+        transform: translateY(-3px);
+        box-shadow: 0 10px 28px rgba(0, 0, 0, 0.06);
+      }
+      .dep-stars {
+        color: var(--gold);
+        font-size: 15px;
+        letter-spacing: 2px;
+        margin-bottom: 16px;
+      }
+      .dep-text {
+        font-size: 14px;
+        line-height: 1.8;
+        color: var(--text2);
+        margin-bottom: 20px;
+        font-style: italic;
+      }
+      .dep-line {
+        border: none;
+        border-top: 1px solid var(--border);
+        margin-bottom: 16px;
+      }
+      .dep-author {
+        display: flex;
+        align-items: center;
+        gap: 11px;
+      }
+      .dep-av {
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--gold), #c9902a);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 800;
+        font-size: 17px;
+        color: #000;
+        flex-shrink: 0;
+      }
+      .dep-name {
+        font-weight: 700;
+        font-size: 14px;
+        color: var(--dark);
+      }
+      .dep-city {
+        font-size: 12px;
+        color: var(--text3);
+        margin-top: 1px;
+      }
+      .dep-badge {
+        position: absolute;
+        top: 18px;
+        right: 18px;
+        background: rgba(200, 146, 42, 0.1);
+        border: 1px solid rgba(200, 146, 42, 0.25);
+        border-radius: 99px;
+        padding: 3px 9px;
+        font-size: 10px;
+        color: var(--gold);
+        font-weight: 700;
+      }
+
+      /* ENCOMENDA */
+      .enc {
+        background: var(--white);
+      }
+      .enc-center {
+        max-width: 760px;
+        margin: 0 auto;
+      }
+      .enc-head {
+        text-align: center;
+        margin-bottom: 44px;
+      }
+      .enc-head .sec-tag {
+        justify-content: center;
+      }
+      .enc-head .sec-tag::before {
+        display: none;
+      }
+      .enc-head p {
+        font-size: 15px;
+        color: var(--text2);
+        margin-top: 12px;
+        line-height: 1.7;
+      }
+      .form-box {
+        background: var(--bg);
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        padding: 40px;
+      }
+      .f-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+        margin-bottom: 14px;
+      }
+      .f-grp {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        margin-bottom: 14px;
+      }
+      .f-grp:last-of-type {
+        margin-bottom: 0;
+      }
+      .f-label {
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        color: var(--text2);
+      }
+      .f-input {
+        background: var(--white);
+        border: 1.5px solid var(--border);
+        border-radius: 8px;
+        padding: 12px 14px;
+        color: var(--text);
+        font-family: "Montserrat", sans-serif;
+        font-size: 14px;
+        outline: none;
+        transition: border-color 0.2s;
+        width: 100%;
+      }
+      .f-input:focus {
+        border-color: var(--gold);
+      }
+      .f-input::placeholder {
+        color: var(--text3);
+      }
+      select.f-input {
+        appearance: none;
+        cursor: pointer;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 13px center;
+      }
+      textarea.f-input {
+        resize: vertical;
+        min-height: 100px;
+      }
+      .f-btn {
+        width: 100%;
+        background: var(--dark);
+        color: #fff;
+        border: none;
+        padding: 16px;
+        border-radius: 9px;
+        font-family: "Montserrat", sans-serif;
+        font-size: 13px;
+        font-weight: 800;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        cursor: pointer;
+        transition: all 0.25s;
+        margin-top: 8px;
+      }
+      .f-btn:hover {
+        background: var(--gold);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba(200, 146, 42, 0.3);
+      }
+      .f-note {
+        text-align: center;
+        font-size: 13px;
+        color: var(--text3);
+        margin-top: 14px;
+      }
+      .f-note a {
+        color: var(--gold);
+        font-weight: 600;
+        text-decoration: none;
+      }
+
+      /* CTA DARK */
+      .cta-dark {
+        background: var(--dark);
+        padding: 88px 60px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+      }
+      .cta-dark::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(
+          ellipse 60% 70% at 50% 50%,
+          rgba(200, 146, 42, 0.1) 0%,
+          transparent 70%
+        );
+      }
+      .cta-dark-inner {
+        max-width: 680px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 2;
+      }
+      .cta-dark-title {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: clamp(44px, 7vw, 88px);
+        color: #fff;
+        line-height: 0.95;
+        margin-bottom: 18px;
+      }
+      .cta-dark-title span {
+        color: var(--gold2);
+      }
+      .cta-dark-sub {
+        font-size: 15px;
+        color: rgba(255, 255, 255, 0.45);
+        margin-bottom: 32px;
+      }
+      .btn-gold {
+        display: inline-flex;
+        align-items: center;
+        gap: 9px;
+        background: var(--gold);
+        color: #000;
+        padding: 15px 34px;
+        border-radius: 8px;
+        font-size: 13px;
+        font-weight: 800;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        text-decoration: none;
+        transition: all 0.25s;
+      }
+      .btn-gold:hover {
+        background: var(--gold2);
+        transform: translateY(-2px);
+        box-shadow: 0 10px 28px rgba(200, 146, 42, 0.35);
+      }
+      .btn-gold svg {
+        width: 19px;
+        height: 19px;
+      }
+
+      /* FOOTER */
+      footer {
+        background: var(--bg2);
+        border-top: 1px solid var(--border);
+        padding: 60px 60px 32px;
+      }
+      .foot-grid {
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr;
+        gap: 56px;
+        max-width: 1200px;
+        margin: 0 auto 44px;
+      }
+      .foot-logo {
+        display: flex;
+        align-items: center;
+        gap: 11px;
+        text-decoration: none;
+        margin-bottom: 14px;
+      }
+      .foot-logo-img {
+        width: 38px;
+        height: 38px;
+        object-fit: contain;
+      }
+      .foot-logo-text {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: 17px;
+        letter-spacing: 3px;
+        color: var(--dark);
+      }
+      .foot-desc {
+        font-size: 13px;
+        color: var(--text2);
+        line-height: 1.8;
+        margin-bottom: 18px;
+      }
+      .foot-socials {
+        display: flex;
+        gap: 9px;
+      }
+      .foot-soc {
+        width: 36px;
+        height: 36px;
+        background: var(--white);
+        border: 1px solid var(--border);
+        border-radius: 7px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        font-size: 15px;
+        transition: all 0.2s;
+      }
+      .foot-soc:hover {
+        border-color: var(--gold);
+        background: var(--gold-light);
+      }
+      .foot-col-title {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: 15px;
+        letter-spacing: 2px;
+        color: var(--dark);
+        margin-bottom: 16px;
+      }
+      .foot-links {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 9px;
+      }
+      .foot-links a {
+        color: var(--text2);
+        text-decoration: none;
+        font-size: 13px;
+        transition: color 0.2s;
+      }
+      .foot-links a:hover {
+        color: var(--gold);
+      }
+      .foot-bottom {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-top: 1px solid var(--border);
+        padding-top: 24px;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+      .foot-copy {
+        font-size: 12px;
+        color: var(--text3);
+      }
+      .foot-brand {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: 14px;
+        letter-spacing: 3px;
+        color: var(--text3);
+      }
+
+      /* WPP FLOAT */
+      .wpp {
+        position: fixed;
+        bottom: 26px;
+        right: 26px;
+        z-index: 600;
+        width: 54px;
+        height: 54px;
+        background: #25d366;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 6px 22px rgba(37, 211, 102, 0.45);
+        text-decoration: none;
+        transition: all 0.3s;
+        animation: wppBob 3s ease-in-out infinite;
+      }
+      .wpp:hover {
+        transform: scale(1.12);
+      }
+      .wpp svg {
+        width: 27px;
+        height: 27px;
+        fill: #fff;
+      }
+      .wpp-tip {
+        position: absolute;
+        right: 62px;
+        background: var(--dark);
+        color: #fff;
+        font-size: 12px;
+        font-weight: 600;
+        padding: 7px 13px;
+        border-radius: 7px;
+        white-space: nowrap;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.2s;
+      }
+      .wpp-tip::after {
+        content: "";
+        position: absolute;
+        right: -5px;
+        top: 50%;
+        transform: translateY(-50%);
+        border: 5px solid transparent;
+        border-right: none;
+        border-left-color: var(--dark);
+      }
+      .wpp:hover .wpp-tip {
+        opacity: 1;
+      }
+
+      /* ANIMATIONS */
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(26px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.4;
+        }
+      }
+      @keyframes marquee {
+        from {
+          transform: translateX(0);
+        }
+        to {
+          transform: translateX(-50%);
+        }
+      }
+      @keyframes wppBob {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-5px);
+        }
+      }
+      .reveal {
+        opacity: 0;
+        transform: translateY(28px);
+        transition:
+          opacity 0.6s ease,
+          transform 0.6s ease;
+      }
+      .reveal.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .d1 {
+        transition-delay: 0.1s;
+      }
+      .d2 {
+        transition-delay: 0.2s;
+      }
+      .d3 {
+        transition-delay: 0.3s;
+      }
+
+      /* RESPONSIVE */
+      @media (max-width: 1080px) {
+        .dif-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .sobre-grid {
+          grid-template-columns: 1fr;
+          gap: 44px;
+        }
+        .sobre-box {
+          display: none;
+        }
+      }
+      @media (max-width: 900px) {
+        .prods-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .prod-wide {
+          grid-column: span 2;
+        }
+        .dep-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .foot-grid {
+          grid-template-columns: 1fr 1fr;
+          gap: 36px;
+        }
+        .carousel-stats {
+          left: 20px;
+          bottom: 72px;
+          gap: 20px;
+        }
+        .carousel-dots {
+          right: 20px;
+          bottom: 72px;
+        }
+      }
+      @media (max-width: 640px) {
+        nav {
+          padding: 13px 20px;
+        }
+        nav.scrolled {
+          padding: 10px 20px;
+        }
+        .nav-links,
+        .nav-cta {
+          display: none;
+        }
+        .hamburger {
+          display: flex;
+        }
+        .slide-content {
+          padding: 0 20px;
+        }
+        .sec {
+          padding: 68px 20px;
+        }
+        .galeria-head,
+        .galeria-cta {
+          padding-left: 20px;
+          padding-right: 20px;
+        }
+        .cta-dark {
+          padding: 68px 20px;
+        }
+        footer {
+          padding: 48px 20px 28px;
+        }
+        .foot-grid {
+          grid-template-columns: 1fr;
+          gap: 28px;
+        }
+        .prods-grid {
+          grid-template-columns: 1fr;
+        }
+        .prod-wide {
+          grid-column: span 1;
+        }
+        .prod-wide-inner {
+          grid-template-columns: 1fr;
+        }
+        .prod-wide .prod-thumb {
+          min-height: 160px;
+        }
+        .dep-grid {
+          grid-template-columns: 1fr;
+        }
+        .dif-grid {
+          grid-template-columns: 1fr;
+        }
+        .f-row {
+          grid-template-columns: 1fr;
+        }
+        .form-box {
+          padding: 24px 18px;
+        }
+        .socias {
+          flex-direction: column;
+        }
+        .foot-bottom {
+          flex-direction: column;
+          text-align: center;
+        }
+        .carousel-prev,
+        .carousel-next {
+          display: none;
+        }
+        .carousel-stats {
+          display: none;
+        }
+        .carousel-dots {
+          bottom: 20px;
+          right: 50%;
+          transform: translateX(50%);
+        }
+      }
+
+      /* COLEÇÃO */
+      .colecao-sec {
+        background: var(--white);
+      }
+      .colecao-top {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 16px;
+        flex-wrap: wrap;
+        margin-bottom: 40px;
+      }
+      .colecao-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+      }
+      .col-card {
+        background: var(--bg);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        overflow: hidden;
+        transition: all 0.3s;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+      }
+      .col-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 16px 44px rgba(0, 0, 0, 0.11);
+        border-color: var(--gold);
+      }
+      .col-thumb {
+        position: relative;
+        overflow: hidden;
+        aspect-ratio: 3/4;
+        background: var(--bg2);
+      }
+      .col-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center top;
+        transition: transform 0.5s ease;
+        display: block;
+      }
+      .col-card:hover .col-img {
+        transform: scale(1.06);
+      }
+      .col-pill {
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        background: var(--dark);
+        color: var(--gold2);
+        font-size: 10px;
+        font-weight: 800;
+        letter-spacing: 1px;
+        padding: 4px 11px;
+        border-radius: 99px;
+        z-index: 2;
+      }
+      .col-overlay {
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.45);
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        padding-bottom: 20px;
+        opacity: 0;
+        transition: opacity 0.3s;
+        z-index: 2;
+      }
+      .col-card:hover .col-overlay {
+        opacity: 1;
+      }
+      .col-overlay-btn {
+        background: var(--gold);
+        color: #000;
+        font-size: 12px;
+        font-weight: 800;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        padding: 10px 24px;
+        border-radius: 6px;
+        text-decoration: none;
+        transform: translateY(10px);
+        transition: transform 0.3s;
+      }
+      .col-card:hover .col-overlay-btn {
+        transform: translateY(0);
+      }
+      .col-body {
+        padding: 18px 20px 22px;
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+      }
+      .col-cat {
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 2px;
+        color: var(--gold);
+        text-transform: uppercase;
+        margin-bottom: 5px;
+      }
+      .col-name {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: 22px;
+        letter-spacing: 1px;
+        color: var(--dark);
+        margin-bottom: 7px;
+      }
+      .col-desc {
+        font-size: 13px;
+        color: var(--text2);
+        line-height: 1.65;
+        margin-bottom: 16px;
+        flex-grow: 1;
+      }
+      .col-price {
+        font-size: 14px;
+        font-weight: 700;
+        color: var(--gold);
+        margin-bottom: 12px;
+      }
+      /* Wide card */
+      .col-card-wide {
+        grid-column: span 2;
+      }
+      .col-wide-inner {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        height: 100%;
+      }
+      .col-thumb-wide {
+        aspect-ratio: unset;
+        min-height: 280px;
+      }
+      .col-body-wide {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 28px 28px;
+      }
+
+      @media (max-width: 900px) {
+        .colecao-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .col-card-wide {
+          grid-column: span 2;
+        }
+      }
+      @media (max-width: 640px) {
+        .colecao-grid {
+          grid-template-columns: 1fr;
+        }
+        .col-card-wide {
+          grid-column: span 1;
+        }
+        .col-wide-inner {
+          grid-template-columns: 1fr;
+        }
+        .col-thumb-wide {
+          min-height: 220px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- NAV -->
+    <nav id="nav">
+      <a href="#hero" class="nav-logo">
+        <img src="img/logo/logo.png" alt="FIT MG WEAR" class="nav-logo-img" />
+        <span class="nav-logo-text">FIT MG WEAR</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#sobre">Sobre</a></li>
+        <li><a href="#colecao">Produtos</a></li>
+        <li><a href="#depoimentos">Clientes</a></li>
+        <li><a href="#encomenda">Encomendas</a></li>
+      </ul>
+      <a href="https://wa.me/5515997714117" target="_blank" class="nav-cta"
+        >Falar Conosco</a
+      >
+      <button class="hamburger" id="ham" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </nav>
+
+    <!-- MOBILE MENU -->
+    <div class="mobile-menu" id="mob">
+      <button class="mobile-close" onclick="closeMob()">✕</button>
+      <a href="#sobre" onclick="closeMob()">Sobre</a>
+      <a href="#colecao" onclick="closeMob()">Produtos</a>
+      <a href="#depoimentos" onclick="closeMob()">Clientes</a>
+      <a href="#encomenda" onclick="closeMob()">Encomendas</a>
+      <a
+        href="https://wa.me/5515997714117"
+        target="_blank"
+        style="color: var(--gold)"
+        >WhatsApp</a
+      >
+    </div>
+
+    <!-- ===================== HERO CAROUSEL ===================== -->
+    <section id="hero">
+      <div class="hero-carousel" id="heroCarousel">
+        <div class="carousel-track" id="carouselTrack">
+          <!-- SLIDE 1 -->
+          <div class="carousel-slide active">
+            <img
+              src="img/carrossel/1.png"
+              alt="FIT MG WEAR - foto 1"
+              class="slide-photo slide-photo-1"
+            />
+            <div class="slide-content">
+              <div class="slide-badge">
+                <span class="slide-badge-dot"></span>Nova Coleção 2026
+              </div>
+              <h1 class="slide-title">
+                VISTA<br /><span class="gold">SUA</span><br />FORÇA
+              </h1>
+              <p class="slide-desc">
+                Moda fitness de alta performance para quem treina com dedicação
+                e vive com estilo.
+              </p>
+              <div class="slide-btns">
+                <a href="#colecao" class="btn-dark">Ver Coleção</a>
+                <a href="#encomenda" class="btn-border">Fazer Encomenda</a>
+              </div>
+            </div>
+          </div>
+          <!-- SLIDE 2 -->
+          <div class="carousel-slide">
+            <img
+              src="img/carrossel/2.png"
+              alt="FIT MG WEAR - foto 2"
+              class="slide-photo slide-photo-2"
+            />
+            <div class="slide-content">
+              <div class="slide-badge">
+                <span class="slide-badge-dot"></span>Conjuntos Exclusivos
+              </div>
+              <h1 class="slide-title">
+                DESIGN<br /><span class="gold">QUE</span><br />ENCANTA
+              </h1>
+              <p class="slide-desc">
+                Conjuntos Top + Legging com modelagem exclusiva, tecidos premium
+                e estampas únicas.
+              </p>
+              <div class="slide-btns">
+                <a href="#colecao" class="btn-dark">Ver Conjuntos</a>
+                <a href="https://wa.me/5515997714117" class="btn-border"
+                  >WhatsApp</a
+                >
+              </div>
+            </div>
+          </div>
+          <!-- SLIDE 3 -->
+          <div class="carousel-slide">
+            <img
+              src="img/carrossel/3.png"
+              alt="FIT MG WEAR - foto 3"
+              class="slide-photo slide-photo-3"
+            />
+            <div class="slide-content">
+              <div class="slide-badge"></div>
+              <h1 class="slide-title">
+                FEITO<br /><span class="gold">PARA</span><br />TREINAR
+              </h1>
+              <p class="slide-desc">
+                Tecidos de alta compressão que modelam, sustentam e acompanham
+                cada movimento.
+              </p>
+              <div class="slide-btns">
+                <a href="#encomenda" class="btn-dark">Encomendar</a>
+                <a href="#sobre" class="btn-border">Nossa História</a>
+              </div>
+            </div>
+          </div>
+          <!-- SLIDE 4 -->
+          <div class="carousel-slide">
+            <img
+              src="img/carrossel/4.png"
+              alt="FIT MG WEAR - foto 4"
+              class="slide-photo slide-photo-4"
+            />
+            <div class="slide-content">
+              <div class="slide-badge">
+                <span class="slide-badge-dot"></span>Estilo & Conforto
+              </div>
+              <h1 class="slide-title">
+                BELEZA<br /><span class="gold">E</span><br />PODER
+              </h1>
+              <p class="slide-desc">
+                Peças que valorizam o corpo feminino dentro e fora da academia
+                com muito estilo.
+              </p>
+              <div class="slide-btns">
+                <a href="#colecao" class="btn-dark">Ver Coleção</a>
+                <a href="https://wa.me/5515997714117" class="btn-border"
+                  >Falar Conosco</a
+                >
+              </div>
+            </div>
+          </div>
+          <!-- SLIDE 5 -->
+          <div class="carousel-slide">
+            <img
+              src="img/carrossel/5.png"
+              alt="FIT MG WEAR - foto 5"
+              class="slide-photo slide-photo-5"
+            />
+            <div class="slide-content">
+              <div class="slide-badge">
+                <span class="slide-badge-dot"></span>Sorocaba · Votorantim ·
+                Brasil
+              </div>
+              <h1 class="slide-title">
+                ENTREGA<br /><span class="gold">TODO</span><br />BRASIL
+              </h1>
+              <p class="slide-desc">
+                De Sorocaba para o país inteiro. Peças personalizadas feitas com
+                carinho pra você.
+              </p>
+              <div class="slide-btns">
+                <a href="#encomenda" class="btn-dark">Encomendar Agora</a>
+                <a href="#galeria" class="btn-border">Ver Galeria</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /track -->
+
+        <!-- Stats overlay -->
+        <div class="carousel-stats">
+          <div class="cstat">
+            <div class="cstat-num">1.8K+</div>
+            <div class="cstat-label">Seguidores</div>
+          </div>
+          <div class="cstat">
+            <div class="cstat-num">100%</div>
+            <div class="cstat-label">Qualidade</div>
+          </div>
+          <div class="cstat">
+            <div class="cstat-num">🇧🇷</div>
+            <div class="cstat-label">Todo Brasil</div>
+          </div>
+        </div>
+
+        <!-- Controls -->
+        <button class="carousel-prev" id="cPrev" aria-label="Anterior">
+          &#8592;
+        </button>
+        <button class="carousel-next" id="cNext" aria-label="Próximo">
+          &#8594;
+        </button>
+
+        <!-- Dots -->
+        <div class="carousel-dots" id="cDots">
+          <button class="carousel-dot active" data-idx="0"></button>
+          <button class="carousel-dot" data-idx="1"></button>
+          <button class="carousel-dot" data-idx="2"></button>
+          <button class="carousel-dot" data-idx="3"></button>
+          <button class="carousel-dot" data-idx="4"></button>
+        </div>
+
+        <!-- Progress bar -->
+        <div class="carousel-progress" id="cProgress"></div>
+      </div>
+    </section>
+
+    <!-- MARQUEE -->
+    <div class="marquee-wrap">
+      <div class="marquee-track">
+        <span class="m-item gold">FIT MG WEAR</span
+        ><span class="m-item">✦ ALTA PERFORMANCE ✦</span>
+        <span class="m-item gold">VISTA SUA FORÇA</span
+        ><span class="m-item">✦ SOROCABA ✦</span>
+        <span class="m-item gold">VOTORANTIM</span
+        ><span class="m-item">✦ TODO BRASIL ✦</span>
+        <span class="m-item gold">FIT MG WEAR</span
+        ><span class="m-item">✦ ALTA PERFORMANCE ✦</span>
+        <span class="m-item gold">VISTA SUA FORÇA</span
+        ><span class="m-item">✦ SOROCABA ✦</span>
+        <span class="m-item gold">VOTORANTIM</span
+        ><span class="m-item">✦ TODO BRASIL ✦</span>
+      </div>
+    </div>
+    <!-- COLEÇÃO -->
+    <section class="sec colecao-sec" id="colecao">
+      <div class="sec-inner">
+        <div class="colecao-top reveal">
+          <div>
+            <div class="sec-tag">Coleção</div>
+            <h2 class="sec-title">NOSSAS <span class="gold">PEÇAS</span></h2>
+          </div>
+          <a href="#encomenda" class="btn-dark">Encomendar Agora</a>
+        </div>
+        <div class="colecao-grid">
+          <!-- Card 1 - Conjunto Premium -->
+          <div class="col-card reveal d1">
+            <div class="col-thumb">
+              <img
+                src="img/pecas/1.jpg"
+                alt="Conjunto Fitness"
+                class="col-img"
+              />
+              <div class="col-pill">⭐ Mais Vendido</div>
+              <div class="col-overlay">
+                <a href="#encomenda" class="col-overlay-btn">Encomendar</a>
+              </div>
+            </div>
+            <div class="col-body">
+              <div class="col-cat">Conjunto</div>
+              <div class="col-name">Conjunto Premium</div>
+              <div class="col-desc">
+                Top + Legging de alta compressão, modelagem exclusiva que
+                valoriza seu corpo.
+              </div>
+              <div class="col-price">R$ 189,90</div>
+              <a href="#encomenda" class="prod-btn"
+                >Encomendar
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M5 12h14M12 5l7 7-7 7" /></svg
+              ></a>
+            </div>
+          </div>
+
+          <!-- Card 2 - Top Cropped Exclusivo -->
+          <div class="col-card reveal d2">
+            <div class="col-thumb">
+              <img src="img/pecas/2.jpg" alt="Top Fitness" class="col-img" />
+              <div class="col-pill">🔥 Novo</div>
+              <div class="col-overlay">
+                <a href="#encomenda" class="col-overlay-btn">Encomendar</a>
+              </div>
+            </div>
+            <div class="col-body">
+              <div class="col-cat">Top Fitness</div>
+              <div class="col-name">Top Cropped Exclusivo</div>
+              <div class="col-desc">
+                Sustentação perfeita e conforto para qualquer tipo de treino.
+                Tecido respirável.
+              </div>
+              <div class="col-price">R$ 79,90</div>
+              <a href="#encomenda" class="prod-btn"
+                >Encomendar
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M5 12h14M12 5l7 7-7 7" /></svg
+              ></a>
+            </div>
+          </div>
+
+          <!-- Card 3 - Legging Performance -->
+          <div class="col-card reveal d3">
+            <div class="col-thumb">
+              <img src="img/pecas/3.jpg" alt="Legging" class="col-img" />
+              <div class="col-pill">💎 Exclusivo</div>
+              <div class="col-overlay">
+                <a href="#encomenda" class="col-overlay-btn">Encomendar</a>
+              </div>
+            </div>
+            <div class="col-body">
+              <div class="col-cat">Legging</div>
+              <div class="col-name">Legging Performance</div>
+              <div class="col-desc">
+                Cintura alta, zero transparência e tecnologia que auxilia na
+                recuperação muscular.
+              </div>
+              <div class="col-price">R$ 119,90</div>
+              <a href="#encomenda" class="prod-btn"
+                >Encomendar
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M5 12h14M12 5l7 7-7 7" /></svg
+              ></a>
+            </div>
+          </div>
+
+          <!-- Card 4 - Short Fitness -->
+          <div class="col-card reveal d1">
+            <div class="col-thumb">
+              <img src="img/pecas/4.jpg" alt="Short Fitness" class="col-img" />
+              <div class="col-pill">✨ Destaque</div>
+              <div class="col-overlay">
+                <a href="#encomenda" class="col-overlay-btn">Encomendar</a>
+              </div>
+            </div>
+            <div class="col-body">
+              <div class="col-cat">Short</div>
+              <div class="col-name">Short Fitness</div>
+              <div class="col-desc">
+                Short com elastano de alta compressão, perfeito para treinos
+                intensos e atividades ao ar livre. Disponível em várias cores e
+                tamanhos.
+              </div>
+              <div class="col-price">R$ 129,90</div>
+              <a href="#encomenda" class="prod-btn"
+                >Encomendar
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M5 12h14M12 5l7 7-7 7" /></svg
+              ></a>
+            </div>
+          </div>
+
+          <!-- Card 5 - Peça Personalizada -->
+          <div class="col-card reveal d2">
+            <div class="col-thumb">
+              <img src="img/pecas/5.jpg" alt="Personalizado" class="col-img" />
+              <div class="col-pill">🎨 Personalizado</div>
+              <div class="col-overlay">
+                <a href="#encomenda" class="col-overlay-btn">Encomendar</a>
+              </div>
+            </div>
+            <div class="col-body">
+              <div class="col-cat">Sob Encomenda</div>
+              <div class="col-name">Peça Personalizada</div>
+              <div class="col-desc">
+                Crie sua peça do zero! Escolha cor, estampa e modelo. Feito
+                exclusivamente pra você.
+              </div>
+              <div class="col-price">A partir de R$ 89,90</div>
+              <a href="#encomenda" class="prod-btn"
+                >Personalizar
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M5 12h14M12 5l7 7-7 7" /></svg
+              ></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SOBRE -->
+    <section class="sobre sec" id="sobre">
+      <div class="sec-inner">
+        <div class="sobre-grid">
+          <div>
+            <div class="sec-tag reveal">Nossa História</div>
+            <h2 class="sec-title reveal">
+              MAIS QUE ROUPA,<br /><span class="gold">UM ESTILO</span><br />DE
+              VIDA
+            </h2>
+            <p class="sobre-text reveal">
+              A FIT MG WEAR nasceu da paixão de duas mulheres pelo mundo fitness
+              — Gisele e Mayara — que uniram força e talento para criar uma
+              marca que vai além da moda.
+            </p>
+            <p class="sobre-text reveal">
+              Cada peça é pensada para quem treina de verdade. Tecidos de alta
+              qualidade, modelagem que valoriza o corpo e designs exclusivos que
+              fazem a diferença dentro e fora da academia.
+            </p>
+            <div class="socias">
+              <div class="socia reveal d1">
+                <div class="socia-emoji">👑</div>
+                <div class="socia-nome">Gisele</div>
+                <div class="socia-cargo">Co-fundadora</div>
+              </div>
+              <div class="socia reveal d2">
+                <div class="socia-emoji">💪</div>
+                <div class="socia-nome">Mayara</div>
+                <div class="socia-cargo">Co-fundadora</div>
+              </div>
+            </div>
+          </div>
+          <div class="sobre-box reveal">
+            <div class="sobre-box-logo">MG</div>
+            <div class="sobre-box-pill">Est. 2026</div>
+            <div class="sobre-box-badge">
+              <div class="sobre-box-badge-title">Feito com 🔥 Paixão</div>
+              <div class="sobre-box-badge-sub">
+                Da academia para o mundo — FIT MG WEAR
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DIFERENCIAIS -->
+    <section class="dif sec" id="diferenciais">
+      <div class="sec-inner">
+        <div class="sec-tag reveal">Por que nos escolher</div>
+        <h2 class="sec-title reveal">
+          NOSSOS <span class="gold">DIFERENCIAIS</span>
+        </h2>
+        <div class="dif-grid">
+          <div class="dif-card reveal d1">
+            <div class="dif-num">01</div>
+            <div class="dif-icon">🧵</div>
+            <div class="dif-title">Tecidos Premium</div>
+            <div class="dif-desc">
+              Materiais de alta qualidade que proporcionam conforto e
+              durabilidade em cada treino.
+            </div>
+          </div>
+          <div class="dif-card reveal d2">
+            <div class="dif-num">02</div>
+            <div class="dif-icon">✂️</div>
+            <div class="dif-title">Modelagem Exclusiva</div>
+            <div class="dif-desc">
+              Corte desenvolvido para valorizar o corpo feminino durante o
+              treino e no dia a dia.
+            </div>
+          </div>
+          <div class="dif-card reveal d3">
+            <div class="dif-num">03</div>
+            <div class="dif-icon">🎨</div>
+            <div class="dif-title">Design Único</div>
+            <div class="dif-desc">
+              Estampas e cores exclusivas que fazem você se destacar com
+              personalidade.
+            </div>
+          </div>
+          <div class="dif-card reveal">
+            <div class="dif-num">04</div>
+            <div class="dif-icon">📦</div>
+            <div class="dif-title">Entrega Rápida</div>
+            <div class="dif-desc">
+              Enviamos para todo o Brasil com agilidade e segurança até sua
+              porta.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- GALERIA -->
+    <section class="galeria" id="galeria">
+      <div class="galeria-head">
+        <div class="sec-tag reveal">Galeria</div>
+        <h2 class="sec-title reveal">
+          NOSSA <span class="gold">GALERIA</span>
+        </h2>
+        <p class="reveal">
+          Acompanhe no
+          <a href="https://www.instagram.com/fitmgwear" target="_blank"
+            >@fitmgwear</a
+          >
+          — em breve mais fotos aqui!
+        </p>
+      </div>
+      <div class="g-row">
+        <div class="g-item">🏋️‍♀️</div>
+        <div class="g-item">💪</div>
+        <div class="g-item">🩱</div>
+        <div class="g-item">👗</div>
+        <div class="g-item">🔥</div>
+        <div class="g-item">✨</div>
+        <div class="g-item">🏋️‍♀️</div>
+        <div class="g-item">💪</div>
+        <div class="g-item">🩱</div>
+        <div class="g-item">👗</div>
+        <div class="g-item">🔥</div>
+        <div class="g-item">✨</div>
+      </div>
+      <div class="g-row rev">
+        <div class="g-item">🩳</div>
+        <div class="g-item">👑</div>
+        <div class="g-item">⭐</div>
+        <div class="g-item">💎</div>
+        <div class="g-item">🎽</div>
+        <div class="g-item">🌟</div>
+        <div class="g-item">🩳</div>
+        <div class="g-item">👑</div>
+        <div class="g-item">⭐</div>
+        <div class="g-item">💎</div>
+        <div class="g-item">🎽</div>
+        <div class="g-item">🌟</div>
+      </div>
+      <div class="galeria-cta">
+        <a
+          href="https://www.instagram.com/fitmgwear"
+          target="_blank"
+          class="btn-white-border reveal"
+        >
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path
+              d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"
+            />
+          </svg>
+          Ver no Instagram
+        </a>
+      </div>
+    </section>
+
+    <!-- DEPOIMENTOS -->
+    <section class="deps sec" id="depoimentos">
+      <div class="sec-inner">
+        <div class="sec-tag reveal">Depoimentos</div>
+        <h2 class="sec-title reveal">
+          O QUE DIZEM <span class="gold">NOSSAS CLIENTES</span>
+        </h2>
+        <div class="dep-grid">
+          <div class="dep reveal d1">
+            <div class="dep-badge">✓ Compra Verificada</div>
+            <div class="dep-stars">★★★★★</div>
+            <p class="dep-text">
+              "Amei meu conjunto! A qualidade é incrível e a modelagem valoriza
+              muito o corpo. Já indiquei para todas as minhas amigas!"
+            </p>
+            <hr class="dep-line" />
+            <div class="dep-author">
+              <div class="dep-av">A</div>
+              <div>
+                <div class="dep-name">Ana Paula S.</div>
+                <div class="dep-city">Sorocaba, SP</div>
+              </div>
+            </div>
+          </div>
+          <div class="dep reveal d2">
+            <div class="dep-badge">✓ Compra Verificada</div>
+            <div class="dep-stars">★★★★★</div>
+            <p class="dep-text">
+              "Produto de altíssima qualidade! Recebi rapidinho e ficou
+              exatamente como eu queria. Com certeza comprarei mais peças!"
+            </p>
+            <hr class="dep-line" />
+            <div class="dep-author">
+              <div class="dep-av">M</div>
+              <div>
+                <div class="dep-name">Marina T.</div>
+                <div class="dep-city">São Paulo, SP</div>
+              </div>
+            </div>
+          </div>
+          <div class="dep reveal d3">
+            <div class="dep-badge">✓ Compra Verificada</div>
+            <div class="dep-stars">★★★★★</div>
+            <p class="dep-text">
+              "Atendimento maravilhoso da Gisele e Mayara! Super atenciosas e o
+              produto superou minhas expectativas. Nota 10!"
+            </p>
+            <hr class="dep-line" />
+            <div class="dep-author">
+              <div class="dep-av">J</div>
+              <div>
+                <div class="dep-name">Juliana R.</div>
+                <div class="dep-city">Votorantim, SP</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ENCOMENDA -->
+    <section class="enc sec" id="encomenda">
+      <div class="sec-inner">
+        <div class="enc-center">
+          <div class="enc-head">
+            <div class="sec-tag reveal" style="justify-content: center">
+              Encomendas
+            </div>
+            <h2 class="sec-title reveal">
+              FAÇA SUA <span class="gold">ENCOMENDA</span>
+            </h2>
+            <p class="reveal">
+              Quer uma peça personalizada? Preencha abaixo e entraremos em
+              contato pelo WhatsApp!
+            </p>
+          </div>
+          <div class="form-box reveal">
+            <div class="f-row">
+              <div class="f-grp" style="margin-bottom: 0">
+                <label class="f-label">Nome *</label
+                ><input
+                  type="text"
+                  class="f-input"
+                  placeholder="Ex: Maria Silva"
+                  id="fn"
+                />
+              </div>
+              <div class="f-grp" style="margin-bottom: 0">
+                <label class="f-label">WhatsApp *</label
+                ><input
+                  type="tel"
+                  class="f-input"
+                  placeholder="(15) 99999-9999"
+                  id="ft"
+                />
+              </div>
+            </div>
+            <div style="height: 14px"></div>
+            <div class="f-row">
+              <div class="f-grp" style="margin-bottom: 0">
+                <label class="f-label">Produto *</label
+                ><select class="f-input" id="fp">
+                  <option value="">Selecione...</option>
+                  <option>Conjunto (Top + Legging)</option>
+                  <option>Top Fitness</option>
+                  <option>Legging</option>
+                  <option>Short</option>
+                  <option>Outro / Personalizado</option>
+                </select>
+              </div>
+              <div class="f-grp" style="margin-bottom: 0">
+                <label class="f-label">Cidade / Estado</label
+                ><input
+                  type="text"
+                  class="f-input"
+                  placeholder="Ex: Sorocaba, SP"
+                  id="fc"
+                />
+              </div>
+            </div>
+            <div style="height: 14px"></div>
+            <div class="f-grp">
+              <label class="f-label">Detalhes</label
+              ><textarea
+                class="f-input"
+                placeholder="Cor, tamanho, prazo desejado..."
+                id="fo"
+              ></textarea>
+            </div>
+            <button class="f-btn" onclick="sendEnc()">
+              🔥 Enviar pelo WhatsApp
+            </button>
+            <p class="f-note">
+              Ou fale diretamente:
+              <a href="https://wa.me/5515997714117" target="_blank"
+                >(15) 99771-4117</a
+              >
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA DARK -->
+    <section class="cta-dark">
+      <div class="cta-dark-inner">
+        <h2 class="cta-dark-title reveal">
+          SIGA A<br /><span>@FITMGWEAR</span>
+        </h2>
+        <p class="cta-dark-sub reveal">
+          Lançamentos, promoções e muito conteúdo fitness no nosso Instagram
+        </p>
+        <a
+          href="https://www.instagram.com/fitmgwear"
+          target="_blank"
+          class="btn-gold reveal"
+        >
+          <svg viewBox="0 0 24 24" fill="currentColor" width="19" height="19">
+            <path
+              d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"
+            />
+          </svg>
+          Seguir no Instagram
+        </a>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+      <div class="foot-grid">
+        <div>
+          <a href="#hero" class="foot-logo">
+            <img
+              src="img/logo/logo.png"
+              alt="FIT MG WEAR"
+              class="foot-logo-img"
+            />
+            <span class="foot-logo-text">FIT MG WEAR</span>
+          </a>
+          <p class="foot-desc">
+            Moda fitness de alta performance. Entregas em Sorocaba, Votorantim e
+            para todo o Brasil.
+          </p>
+          <div class="foot-socials">
+            <a
+              href="https://www.instagram.com/fitmgwear"
+              target="_blank"
+              class="foot-soc"
+              title="Instagram"
+              >📸</a
+            >
+            <a
+              href="https://wa.me/5515997714117"
+              target="_blank"
+              class="foot-soc"
+              title="WhatsApp"
+              >📲</a
+            >
+          </div>
+        </div>
+        <div>
+          <div class="foot-col-title">Links</div>
+          <ul class="foot-links">
+            <li><a href="#sobre">Sobre a Marca</a></li>
+            <li><a href="#colecao">Produtos</a></li>
+            <li><a href="#galeria">Galeria</a></li>
+            <li><a href="#depoimentos">Depoimentos</a></li>
+            <li><a href="#encomenda">Encomendas</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="foot-col-title">Contato</div>
+          <ul class="foot-links">
+            <li>
+              <a href="https://wa.me/5515997714117" target="_blank"
+                >📲 (15) 99771-4117</a
+              >
+            </li>
+            <li>
+              <a href="https://www.instagram.com/fitmgwear" target="_blank"
+                >📸 @fitmgwear</a
+              >
+            </li>
+            <li><a href="#">📍 Sorocaba, SP</a></li>
+            <li><a href="#">🇧🇷 Enviamos p/ todo o Brasil</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="foot-bottom">
+        <span class="foot-copy"
+          >© 2025 FIT MG WEAR — Todos os direitos reservados.</span
+        >
+        <span class="foot-brand">FIT MG WEAR</span>
+      </div>
+    </footer>
+
+    <!-- WPP FLOAT -->
+    <a
+      href="https://wa.me/5515997714117?text=Olá! Vim pelo site da FIT MG WEAR 🔥"
+      target="_blank"
+      class="wpp"
+    >
+      <div class="wpp-tip">Fale conosco agora!</div>
+      <svg viewBox="0 0 24 24">
+        <path
+          d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488"
+        />
+      </svg>
+    </a>
+
+    <script>
+      // NAV scroll
+      window.addEventListener("scroll", () => {
+        document
+          .getElementById("nav")
+          .classList.toggle("scrolled", window.scrollY > 50);
+      });
+      document
+        .getElementById("ham")
+        .addEventListener("click", () =>
+          document.getElementById("mob").classList.toggle("open"),
+        );
+      function closeMob() {
+        document.getElementById("mob").classList.remove("open");
+      }
+
+      // Reveal on scroll
+      const obs = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) {
+              e.target.classList.add("visible");
+              obs.unobserve(e.target);
+            }
+          });
+        },
+        { threshold: 0.1 },
+      );
+      document.querySelectorAll(".reveal").forEach((el) => obs.observe(el));
+
+      // ===================== CAROUSEL =====================
+      (function () {
+        const slides = document.querySelectorAll(".carousel-slide");
+        const dots = document.querySelectorAll(".carousel-dot");
+        const track = document.getElementById("carouselTrack");
+        const progress = document.getElementById("cProgress");
+        let current = 0;
+        let autoTimer, progressTimer;
+        const DURATION = 5000;
+
+        function goTo(idx) {
+          slides[current].classList.remove("active");
+          dots[current].classList.remove("active");
+          current = (idx + slides.length) % slides.length;
+          slides[current].classList.add("active");
+          dots[current].classList.add("active");
+          track.style.transform = `translateX(-${current * 100}%)`;
+          resetProgress();
+        }
+
+        function resetProgress() {
+          clearInterval(progressTimer);
+          progress.style.transition = "none";
+          progress.style.width = "0%";
+          requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+              progress.style.transition = `width ${DURATION}ms linear`;
+              progress.style.width = "100%";
+            });
+          });
+        }
+
+        function startAuto() {
+          clearInterval(autoTimer);
+          autoTimer = setInterval(() => goTo(current + 1), DURATION);
+        }
+
+        document.getElementById("cNext").addEventListener("click", () => {
+          goTo(current + 1);
+          startAuto();
+        });
+        document.getElementById("cPrev").addEventListener("click", () => {
+          goTo(current - 1);
+          startAuto();
+        });
+        dots.forEach((dot) => {
+          dot.addEventListener("click", () => {
+            goTo(parseInt(dot.dataset.idx));
+            startAuto();
+          });
+        });
+
+        // Touch swipe
+        let touchX = 0;
+        const hero = document.getElementById("heroCarousel");
+        hero.addEventListener(
+          "touchstart",
+          (e) => {
+            touchX = e.touches[0].clientX;
+          },
+          { passive: true },
+        );
+        hero.addEventListener("touchend", (e) => {
+          const diff = touchX - e.changedTouches[0].clientX;
+          if (Math.abs(diff) > 50) {
+            goTo(diff > 0 ? current + 1 : current - 1);
+            startAuto();
+          }
+        });
+
+        goTo(0);
+        startAuto();
+      })();
+
+      // Form WhatsApp
+      function sendEnc() {
+        const n = document.getElementById("fn").value.trim();
+        const t = document.getElementById("ft").value.trim();
+        const p = document.getElementById("fp").value;
+        const c = document.getElementById("fc").value.trim();
+        const o = document.getElementById("fo").value.trim();
+        if (!n || !t || !p) {
+          alert("Preencha Nome, WhatsApp e Produto.");
+          return;
+        }
+        const msg = `Olá! Vim pelo site da FIT MG WEAR e gostaria de fazer uma encomenda! 🔥\n\n👤 *Nome:* ${n}\n📱 *WhatsApp:* ${t}\n👗 *Produto:* ${p}\n📍 *Cidade:* ${c || "Não informado"}\n📝 *Detalhes:* ${o || "Sem detalhes"}`;
+        window.open(
+          `https://wa.me/5515997714117?text=${encodeURIComponent(msg)}`,
+          "_blank",
+        );
+      }
+    </script>
+  </body>
+</html>

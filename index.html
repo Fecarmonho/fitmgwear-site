@@ -1927,134 +1927,12 @@
           </div>
           <a href="#encomenda" class="btn-dark">Encomendar Agora</a>
         </div>
-        <div class="colecao-grid">
-          <!-- Card 1 - Conjunto Premium -->
-          <div class="col-card reveal d1">
-            <div class="col-thumb">
-              <img
-                src="img/pecas/1.jpg"
-                alt="Conjunto Fitness"
-                class="col-img"
-              />
-              <div class="col-pill">⭐ Mais Vendido</div>
-              <div class="col-overlay">
-                <a href="#encomenda" class="col-overlay-btn">Encomendar</a>
-              </div>
-            </div>
-            <div class="col-body">
-              <div class="col-cat">Conjunto</div>
-              <div class="col-name">Conjunto Premium</div>
-              <div class="col-desc">
-                Top + Legging de alta compressão, modelagem exclusiva que
-                valoriza seu corpo.
-              </div>
-              <div class="col-price">R$ 189,90</div>
-              <a href="#encomenda" class="prod-btn"
-                >Encomendar
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                >
-                  <path d="M5 12h14M12 5l7 7-7 7" /></svg
-              ></a>
-            </div>
-          </div>
+        <div class="colecao-grid" id="colecaoGrid">
+          <!-- Produtos reais são inseridos aqui dinamicamente via JS (ver script no fim da página) -->
+          <div id="colecaoLoading" style="grid-column:1/-1;text-align:center;color:#999;padding:20px 0;">Carregando peças...</div>
 
-          <!-- Card 2 - Top Cropped Exclusivo -->
-          <div class="col-card reveal d2">
-            <div class="col-thumb">
-              <img src="img/pecas/2.jpg" alt="Top Fitness" class="col-img" />
-              <div class="col-pill">🔥 Novo</div>
-              <div class="col-overlay">
-                <a href="#encomenda" class="col-overlay-btn">Encomendar</a>
-              </div>
-            </div>
-            <div class="col-body">
-              <div class="col-cat">Top Fitness</div>
-              <div class="col-name">Top Cropped Exclusivo</div>
-              <div class="col-desc">
-                Sustentação perfeita e conforto para qualquer tipo de treino.
-                Tecido respirável.
-              </div>
-              <div class="col-price">R$ 79,90</div>
-              <a href="#encomenda" class="prod-btn"
-                >Encomendar
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                >
-                  <path d="M5 12h14M12 5l7 7-7 7" /></svg
-              ></a>
-            </div>
-          </div>
-
-          <!-- Card 3 - Legging Performance -->
-          <div class="col-card reveal d3">
-            <div class="col-thumb">
-              <img src="img/pecas/3.jpg" alt="Legging" class="col-img" />
-              <div class="col-pill">💎 Exclusivo</div>
-              <div class="col-overlay">
-                <a href="#encomenda" class="col-overlay-btn">Encomendar</a>
-              </div>
-            </div>
-            <div class="col-body">
-              <div class="col-cat">Legging</div>
-              <div class="col-name">Legging Performance</div>
-              <div class="col-desc">
-                Cintura alta, zero transparência e tecnologia que auxilia na
-                recuperação muscular.
-              </div>
-              <div class="col-price">R$ 119,90</div>
-              <a href="#encomenda" class="prod-btn"
-                >Encomendar
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                >
-                  <path d="M5 12h14M12 5l7 7-7 7" /></svg
-              ></a>
-            </div>
-          </div>
-
-          <!-- Card 4 - Short Fitness -->
-          <div class="col-card reveal d1">
-            <div class="col-thumb">
-              <img src="img/pecas/4.jpg" alt="Short Fitness" class="col-img" />
-              <div class="col-pill">✨ Destaque</div>
-              <div class="col-overlay">
-                <a href="#encomenda" class="col-overlay-btn">Encomendar</a>
-              </div>
-            </div>
-            <div class="col-body">
-              <div class="col-cat">Short</div>
-              <div class="col-name">Short Fitness</div>
-              <div class="col-desc">
-                Short com elastano de alta compressão, perfeito para treinos
-                intensos e atividades ao ar livre. Disponível em várias cores e
-                tamanhos.
-              </div>
-              <div class="col-price">R$ 129,90</div>
-              <a href="#encomenda" class="prod-btn"
-                >Encomendar
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                >
-                  <path d="M5 12h14M12 5l7 7-7 7" /></svg
-              ></a>
-            </div>
-          </div>
-
-          <!-- Card 5 - Peça Personalizada -->
-          <div class="col-card reveal d2">
+          <!-- Card fixo - Peça Personalizada (chamada de marketing, não é estoque) -->
+          <div class="col-card reveal d2" id="cardPersonalizado">
             <div class="col-thumb">
               <img src="img/pecas/5.jpg" alt="Personalizado" class="col-img" />
               <div class="col-pill">🎨 Personalizado</div>
@@ -2611,6 +2489,137 @@
           "_blank",
         );
       }
+    </script>
+
+    <!-- ===================== PRODUTOS REAIS (Firebase / ERP) ===================== -->
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
+      import { getFirestore, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
+      import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js";
+
+      // Mesmo projeto Firebase usado no sistema de gestão (ERP) da FitMGWear
+      const firebaseConfig = {
+        apiKey: "AIzaSyB2t0DPn-t_-bYuEJKd3X0h8j6v6bSTuAg",
+        authDomain: "fitmgwear-app.firebaseapp.com",
+        projectId: "fitmgwear-app",
+        storageBucket: "fitmgwear-app.firebasestorage.app",
+        messagingSenderId: "324978242715",
+        appId: "1:324978242715:web:c0eae2c0ebd6ad8626c23e",
+        measurementId: "G-NF8VNZ0GXD",
+      };
+      const fbApp = initializeApp(firebaseConfig);
+      const db = getFirestore(fbApp);
+      const auth = getAuth(fbApp);
+
+      const PLACEHOLDER_IMG = "img/pecas/1.jpg";
+      const WHATSAPP_NUM = "5515997714117";
+
+      function formatBRLLocal(v) {
+        return (v || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+      }
+
+      function pillHtml(p) {
+        const estoque = Number(p.quantidadeEstoque) || 0;
+        const minimo = Number(p.quantidadeMinima) || 5;
+        if (estoque <= 0) return `<div class="col-pill" style="background:#333;color:#ccc">Esgotado</div>`;
+        if (estoque <= minimo) return `<div class="col-pill">🔥 Últimas peças</div>`;
+        return "";
+      }
+
+      function cardHtml(p, idx) {
+        const nome = p.nome || "";
+        const desc = p.descricao || "";
+        const img = p.imagemUrl || PLACEHOLDER_IMG;
+        const preco = formatBRLLocal(p.precoVenda);
+        const stagger = ["d1", "d2", "d3"][idx % 3];
+        const esgotado = (Number(p.quantidadeEstoque) || 0) <= 0;
+        return `
+          <div class="col-card reveal ${stagger}">
+            <div class="col-thumb">
+              <img src="${img}" alt="${nome}" class="col-img" loading="lazy" />
+              ${pillHtml(p)}
+              <div class="col-overlay">
+                <a href="#encomenda" class="col-overlay-btn" data-produto="${nome.replace(/"/g, "&quot;")}">${esgotado ? "Avisar quando chegar" : "Encomendar"}</a>
+              </div>
+            </div>
+            <div class="col-body">
+              <div class="col-name">${nome}</div>
+              ${desc ? `<div class="col-desc">${desc}</div>` : ""}
+              <div class="col-price">${preco}</div>
+              <a href="#encomenda" class="prod-btn" data-produto="${nome.replace(/"/g, "&quot;")}"
+                >${esgotado ? "Avisar quando chegar" : "Encomendar"}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M5 12h14M12 5l7 7-7 7" /></svg
+              ></a>
+            </div>
+          </div>`;
+      }
+
+      function renderProdutos(produtos) {
+        const grid = document.getElementById("colecaoGrid");
+        const pinCard = document.getElementById("cardPersonalizado");
+        // Remove qualquer card dinâmico renderizado antes (mantém o card fixo "Personalizado")
+        grid.querySelectorAll("[data-dynamic-card]").forEach(el => el.remove());
+        const loading = document.getElementById("colecaoLoading");
+        if (loading) loading.remove();
+
+        if (!produtos.length) {
+          const vazio = document.createElement("div");
+          vazio.setAttribute("data-dynamic-card", "1");
+          vazio.style.cssText = "grid-column:1/-1;text-align:center;color:#999;padding:20px 0;";
+          vazio.textContent = "Novidades chegando em breve! Fale com a gente pelo WhatsApp.";
+          grid.insertBefore(vazio, pinCard);
+          return;
+        }
+
+        const ordenados = [...produtos].sort((a, b) => (a.nome || "").localeCompare(b.nome || "", "pt-BR"));
+        const frag = document.createElement("div");
+        frag.innerHTML = ordenados.map(cardHtml).join("");
+        [...frag.children].forEach(card => {
+          card.setAttribute("data-dynamic-card", "1");
+          grid.insertBefore(card, pinCard);
+        });
+
+        // Reobserva os novos elementos ".reveal" para a animação de entrada funcionar
+        const revealObs = new IntersectionObserver((entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) { e.target.classList.add("visible"); revealObs.unobserve(e.target); }
+          });
+        }, { threshold: 0.1 });
+        grid.querySelectorAll('[data-dynamic-card] .reveal, [data-dynamic-card].reveal').forEach(el => revealObs.observe(el));
+
+        // Atualiza a lista de produtos do formulário de encomenda com os nomes reais
+        const select = document.getElementById("fp");
+        if (select) {
+          const atual = select.value;
+          select.innerHTML = `<option value="">Selecione...</option>` +
+            ordenados.map(p => `<option>${p.nome}</option>`).join("") +
+            `<option>Outro / Personalizado</option>`;
+          if (atual) select.value = atual;
+        }
+      }
+
+      // Clique nos botões dos cards já pré-seleciona o produto no formulário
+      document.addEventListener("click", (e) => {
+        const btn = e.target.closest("[data-produto]");
+        if (!btn) return;
+        const select = document.getElementById("fp");
+        if (select) {
+          const nomeProduto = btn.getAttribute("data-produto");
+          const opt = [...select.options].find(o => o.value === nomeProduto);
+          if (opt) select.value = nomeProduto;
+        }
+      });
+
+      onAuthStateChanged(auth, (user) => {
+        if (!user) { signInAnonymously(auth).catch(() => {}); return; }
+        onSnapshot(collection(db, "produtos"), (snap) => {
+          renderProdutos(snap.docs.map(d => d.data()));
+        }, () => {
+          const loading = document.getElementById("colecaoLoading");
+          if (loading) loading.textContent = "Não foi possível carregar as peças agora. Fale com a gente pelo WhatsApp!";
+        });
+      });
     </script>
   </body>
 </html>

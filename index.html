@@ -1590,6 +1590,27 @@
       .col-card:hover .col-img {
         transform: scale(1.06);
       }
+      .col-noimg {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        background: var(--bg2);
+        color: var(--text3);
+      }
+      .col-noimg span {
+        font-size: 36px;
+        opacity: 0.45;
+      }
+      .col-noimg small {
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+      }
       .col-pill {
         position: absolute;
         top: 12px;
@@ -2577,7 +2598,6 @@
       const db = getFirestore(fbApp);
       const auth = getAuth(fbApp);
 
-      const PLACEHOLDER_IMG = "img/pecas/1.jpg";
       const WHATSAPP_NUM = "5515997714117";
 
       function formatBRLLocal(v) {
@@ -2595,14 +2615,16 @@
       function cardHtml(p, idx) {
         const nome = p.nome || "";
         const desc = p.descricao || "";
-        const img = p.imagemUrl || PLACEHOLDER_IMG;
         const preco = formatBRLLocal(p.precoVenda);
         const stagger = ["d1", "d2", "d3"][idx % 3];
         const esgotado = (Number(p.quantidadeEstoque) || 0) <= 0;
+        const thumb = p.imagemUrl
+          ? `<img src="${p.imagemUrl}" alt="${nome}" class="col-img" loading="lazy" />`
+          : `<div class="col-noimg"><span>📷</span><small>Foto em breve</small></div>`;
         return `
           <div class="col-card reveal ${stagger}">
             <div class="col-thumb">
-              <img src="${img}" alt="${nome}" class="col-img" loading="lazy" />
+              ${thumb}
               ${pillHtml(p)}
               <div class="col-overlay">
                 <a href="#encomenda" class="col-overlay-btn" data-produto="${nome.replace(/"/g, "&quot;")}">${esgotado ? "Avisar quando chegar" : "Encomendar"}</a>

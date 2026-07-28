@@ -621,6 +621,16 @@
         position: relative;
         overflow: hidden;
       }
+      .sobre-box-foto {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .sobre-box.has-foto .sobre-box-logo {
+        display: none;
+      }
       .sobre-box-logo {
         font-family: "Bebas Neue", sans-serif;
         font-size: 150px;
@@ -897,6 +907,12 @@
         font-size: 64px;
         background: var(--dark2);
         border: 1px solid rgba(255, 255, 255, 0.05);
+        overflow: hidden;
+      }
+      .g-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
       }
       .galeria-cta {
         text-align: center;
@@ -1421,6 +1437,11 @@
         .sobre-box {
           display: none;
         }
+        /* Com foto da dona cadastrada, a caixa aparece também no celular */
+        .sobre-box.has-foto {
+          display: flex;
+          min-height: 380px;
+        }
       }
       @media (max-width: 900px) {
         .prods-grid {
@@ -1937,8 +1958,8 @@
                 ENTREGA<br /><span class="gold">TODO</span><br />BRASIL
               </h1>
               <p class="slide-desc">
-                De Sorocaba para o país inteiro. Peças personalizadas feitas com
-                carinho pra você.
+                De Sorocaba para o país inteiro. Peças feitas com carinho pra
+                você.
               </p>
               <div class="slide-btns">
                 <a href="#encomenda" class="btn-dark">Encomendar Agora</a>
@@ -2018,35 +2039,6 @@
           <!-- Produtos reais são inseridos aqui dinamicamente via JS (ver script no fim da página) -->
           <div id="colecaoLoading" style="grid-column:1/-1;text-align:center;color:#999;padding:20px 0;">Carregando peças...</div>
 
-          <!-- Card fixo - Peça Personalizada (chamada de marketing, não é estoque) -->
-          <div class="col-card reveal d2" id="cardPersonalizado">
-            <div class="col-thumb">
-              <img src="img/pecas/5.jpg" alt="Personalizado" class="col-img" />
-              <div class="col-pill">🎨 Personalizado</div>
-              <div class="col-overlay">
-                <a href="#encomenda" class="col-overlay-btn">Encomendar</a>
-              </div>
-            </div>
-            <div class="col-body">
-              <div class="col-cat">Sob Encomenda</div>
-              <div class="col-name">Peça Personalizada</div>
-              <div class="col-desc">
-                Crie sua peça do zero! Escolha cor, estampa e modelo. Feito
-                exclusivamente pra você.
-              </div>
-              <div class="col-price">A partir de R$ 89,90</div>
-              <a href="#encomenda" class="prod-btn"
-                >Personalizar
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                >
-                  <path d="M5 12h14M12 5l7 7-7 7" /></svg
-              ></a>
-            </div>
-          </div>
         </div>
       </div>
     </section>
@@ -2062,9 +2054,9 @@
               VIDA
             </h2>
             <p class="sobre-text reveal">
-              A FIT MG WEAR nasceu da paixão de duas mulheres pelo mundo fitness
-              — Gisele e Mayara — que uniram força e talento para criar uma
-              marca que vai além da moda.
+              A FIT MG WEAR nasceu da paixão da Gisele pelo mundo fitness — uma
+              marca criada para ir além da moda e transformar treino em estilo
+              de vida.
             </p>
             <p class="sobre-text reveal">
               Cada peça é pensada para quem treina de verdade. Tecidos de alta
@@ -2075,16 +2067,12 @@
               <div class="socia reveal d1">
                 <div class="socia-emoji">👑</div>
                 <div class="socia-nome">Gisele</div>
-                <div class="socia-cargo">Co-fundadora</div>
-              </div>
-              <div class="socia reveal d2">
-                <div class="socia-emoji">💪</div>
-                <div class="socia-nome">Mayara</div>
-                <div class="socia-cargo">Co-fundadora</div>
+                <div class="socia-cargo">Fundadora</div>
               </div>
             </div>
           </div>
-          <div class="sobre-box reveal">
+          <div class="sobre-box reveal" id="sobreBox">
+            <img id="fotoDona" class="sobre-box-foto" alt="Gisele — fundadora da FIT MG WEAR" style="display: none" />
             <div class="sobre-box-logo">MG</div>
             <div class="sobre-box-pill">Est. 2026</div>
             <div class="sobre-box-badge">
@@ -2155,8 +2143,8 @@
         </h2>
         <p class="reveal">
           Acompanhe no
-          <a href="https://www.instagram.com/fitmgwear" target="_blank"
-            >@fitmgwear</a
+          <a href="https://www.instagram.com/fitmgwear.oficial" target="_blank"
+            >@fitmgwear.oficial</a
           >
           — em breve mais fotos aqui!
         </p>
@@ -2191,7 +2179,7 @@
       </div>
       <div class="galeria-cta">
         <a
-          href="https://www.instagram.com/fitmgwear"
+          href="https://www.instagram.com/fitmgwear.oficial"
           target="_blank"
           class="btn-white-border reveal"
         >
@@ -2249,8 +2237,8 @@
             <div class="dep-badge">✓ Compra Verificada</div>
             <div class="dep-stars">★★★★★</div>
             <p class="dep-text">
-              "Atendimento maravilhoso da Gisele e Mayara! Super atenciosas e o
-              produto superou minhas expectativas. Nota 10!"
+              "Atendimento maravilhoso da Gisele! Super atenciosa e o produto
+              superou minhas expectativas. Nota 10!"
             </p>
             <hr class="dep-line" />
             <div class="dep-author">
@@ -2277,8 +2265,8 @@
               FAÇA SUA <span class="gold">ENCOMENDA</span>
             </h2>
             <p class="reveal">
-              Quer uma peça personalizada? Preencha abaixo e entraremos em
-              contato pelo WhatsApp!
+              Escolheu sua peça? Preencha abaixo e entraremos em contato pelo
+              WhatsApp!
             </p>
           </div>
           <div class="form-box reveal">
@@ -2312,7 +2300,7 @@
                   <option>Top Fitness</option>
                   <option>Legging</option>
                   <option>Short</option>
-                  <option>Outro / Personalizado</option>
+                  <option>Outro</option>
                 </select>
               </div>
               <div class="f-grp" style="margin-bottom: 0">
@@ -2352,13 +2340,13 @@
     <section class="cta-dark">
       <div class="cta-dark-inner">
         <h2 class="cta-dark-title reveal">
-          SIGA A<br /><span>@FITMGWEAR</span>
+          SIGA A<br /><span>@FITMGWEAR.OFICIAL</span>
         </h2>
         <p class="cta-dark-sub reveal">
           Lançamentos, promoções e muito conteúdo fitness no nosso Instagram
         </p>
         <a
-          href="https://www.instagram.com/fitmgwear"
+          href="https://www.instagram.com/fitmgwear.oficial"
           target="_blank"
           class="btn-gold reveal"
         >
@@ -2390,7 +2378,7 @@
           </p>
           <div class="foot-socials">
             <a
-              href="https://www.instagram.com/fitmgwear"
+              href="https://www.instagram.com/fitmgwear.oficial"
               target="_blank"
               class="foot-soc"
               title="Instagram"
@@ -2424,8 +2412,8 @@
               >
             </li>
             <li>
-              <a href="https://www.instagram.com/fitmgwear" target="_blank"
-                >📸 @fitmgwear</a
+              <a href="https://www.instagram.com/fitmgwear.oficial" target="_blank"
+                >📸 @fitmgwear.oficial</a
               >
             </li>
             <li><a href="#">📍 Sorocaba, SP</a></li>
@@ -2645,8 +2633,8 @@
 
       function renderProdutos(produtos) {
         const grid = document.getElementById("colecaoGrid");
-        const pinCard = document.getElementById("cardPersonalizado");
-        // Remove qualquer card dinâmico renderizado antes (mantém o card fixo "Personalizado")
+        const pinCard = null; // não há mais card fixo na vitrine
+        // Remove qualquer card dinâmico renderizado antes
         grid.querySelectorAll("[data-dynamic-card]").forEach(el => el.remove());
         const loading = document.getElementById("colecaoLoading");
         if (loading) loading.remove();
@@ -2682,7 +2670,7 @@
           const atual = select.value;
           select.innerHTML = `<option value="">Selecione...</option>` +
             ordenados.map(p => `<option>${p.nome}</option>`).join("") +
-            `<option>Outro / Personalizado</option>`;
+            `<option>Outro</option>`;
           if (atual) select.value = atual;
         }
       }
@@ -2699,6 +2687,46 @@
         }
       });
 
+      // ── Fotos do Site (carrossel, galeria e foto da dona) ──
+      // Gerenciadas pela dona no ERP (tela "Fotos do Site"). Enquanto não houver
+      // foto cadastrada, o site mantém as imagens locais da pasta img/ como fallback.
+      function aplicarFotosSite(fotos) {
+        // Carrossel: ordem 1..5 corresponde aos 5 slides do topo
+        const slides = document.querySelectorAll(".carousel-slide img.slide-photo");
+        fotos.filter(f => f.tipo === "carrossel" && f.imagem).forEach(f => {
+          const img = slides[(f.ordem || 0) - 1];
+          if (img) img.src = f.imagem;
+        });
+
+        // Foto da dona: seção "Nossa História"
+        const dona = fotos.find(f => f.tipo === "dona" && f.imagem);
+        const imgDona = document.getElementById("fotoDona");
+        const boxDona = document.getElementById("sobreBox");
+        if (imgDona && boxDona) {
+          if (dona) { imgDona.src = dona.imagem; imgDona.style.display = "block"; boxDona.classList.add("has-foto"); }
+          else { imgDona.style.display = "none"; boxDona.classList.remove("has-foto"); }
+        }
+
+        // Galeria: substitui os ícones pelas fotos reais (se houver alguma)
+        const galeria = fotos.filter(f => f.tipo === "galeria" && f.imagem)
+          .sort((a, b) => (a.criadoEm || "").localeCompare(b.criadoEm || ""));
+        if (galeria.length > 0) {
+          const rows = document.querySelectorAll(".g-row");
+          const metade = Math.ceil(galeria.length / 2);
+          // Com 6+ fotos, divide entre as duas fileiras; com menos, repete nas duas
+          const conjuntos = galeria.length >= 6
+            ? [galeria.slice(0, metade), galeria.slice(metade)]
+            : [galeria, [...galeria].reverse()];
+          rows.forEach((row, i) => {
+            const fotosRow = conjuntos[i] && conjuntos[i].length ? conjuntos[i] : galeria;
+            // o efeito de esteira precisa do conteúdo duplicado para o loop ser contínuo
+            row.innerHTML = [...fotosRow, ...fotosRow]
+              .map(f => `<div class="g-item"><img src="${f.imagem}" alt="Galeria FIT MG WEAR" loading="lazy" /></div>`)
+              .join("");
+          });
+        }
+      }
+
       onAuthStateChanged(auth, (user) => {
         if (!user) { signInAnonymously(auth).catch(() => {}); return; }
         onSnapshot(collection(db, "produtos"), (snap) => {
@@ -2707,6 +2735,9 @@
           const loading = document.getElementById("colecaoLoading");
           if (loading) loading.textContent = "Não foi possível carregar as peças agora. Fale com a gente pelo WhatsApp!";
         });
+        onSnapshot(collection(db, "siteFotos"), (snap) => {
+          aplicarFotosSite(snap.docs.map(d => d.data()));
+        }, () => { /* sem permissão ou offline — mantém as fotos locais */ });
       });
     </script>
   </body>

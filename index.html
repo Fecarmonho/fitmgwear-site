@@ -1901,13 +1901,13 @@
       }
       .pm-box {
         position: relative;
-        width: min(1080px, 100%);
-        height: min(86vh, 720px);
+        width: min(900px, 100%);
+        height: min(80vh, 640px);
         background: var(--bg);
         border-radius: 18px;
         overflow: hidden;
         display: grid;
-        grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
         box-shadow: 0 30px 80px rgba(0, 0, 0, 0.35);
         transform: translateY(20px) scale(0.98);
         transition: transform 0.28s cubic-bezier(0.2, 0.8, 0.3, 1);
@@ -1919,13 +1919,21 @@
         position: relative;
         background: var(--bg2);
         overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 14px;
       }
+      /* A foto aparece inteira e centralizada, no tamanho real: esticar para
+         preencher a área deixava a imagem cortada e borrada. */
       .pm-media img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        object-position: center top;
+        max-width: 100%;
+        max-height: 100%;
+        width: auto;
+        height: auto;
+        object-fit: contain;
         display: block;
+        border-radius: 6px;
         cursor: zoom-in;
       }
       .pm-zoom {
@@ -2102,6 +2110,8 @@
       .lb-backdrop img {
         max-width: 100%;
         max-height: 100%;
+        width: auto;
+        height: auto;
         object-fit: contain;
         border-radius: 4px;
       }
@@ -2141,6 +2151,8 @@
         .pm-media {
           aspect-ratio: 3/4;
           max-height: 62vh;
+          max-width: none;
+          width: 100%;
         }
         .pm-close {
           position: fixed;
@@ -3092,9 +3104,11 @@
         if (!btn) return;
         const select = document.getElementById("fp");
         if (select) {
-          const nomeProduto = btn.getAttribute("data-produto");
-          const opt = [...select.options].find(o => o.value === nomeProduto);
-          if (opt) select.value = nomeProduto;
+          // compara sem espaços das pontas: o navegador remove esses espaços do
+          // value da <option>, e vários produtos têm espaço sobrando no nome
+          const nomeProduto = (btn.getAttribute("data-produto") || "").trim();
+          const opt = [...select.options].find(o => o.value.trim() === nomeProduto);
+          if (opt) select.value = opt.value;
         }
       });
 
@@ -3233,8 +3247,25 @@
 
       document.getElementById("pmClose").addEventListener("click", fecharModal);
       modal.addEventListener("click", (e) => { if (e.target === modal) fecharModal(); });
-      // Encomendar leva pro formulário lá embaixo — fecha o detalhe antes de rolar
-      document.getElementById("pmEncomendar").addEventListener("click", fecharModal);
+
+      // Todo link "Encomendar" rola até o formulário por conta própria, porque o
+      // #encomenda do href sozinho falhava em dois casos: quando o endereço já
+      // terminava em #encomenda (clique anterior, o navegador ignora) e quando o
+      // clique vinha do detalhe em tela cheia (a página ainda estava travada
+      // contra rolagem no instante do clique).
+      document.addEventListener("click", (e) => {
+        const link = e.target.closest('a[href="#encomenda"]');
+        if (!link) return;
+        e.preventDefault();
+        if (modal.classList.contains("open")) fecharModal();
+        const alvo = document.getElementById("encomenda");
+        if (!alvo) return;
+        // espera o destravamento da rolagem valer antes de rolar
+        setTimeout(() => {
+          alvo.scrollIntoView({ behavior: "smooth", block: "start" });
+          history.replaceState(null, "", "#encomenda");
+        }, 0);
+      });
       document.getElementById("lbClose").addEventListener("click", fecharLightbox);
       lightbox.addEventListener("click", (e) => { if (e.target !== lbImg) fecharLightbox(); });
 

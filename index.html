@@ -1876,6 +1876,100 @@
         }
       }
 
+      /* ── Peça com mais de uma foto: setas e bolinhas no card ── */
+      .col-seta,
+      .pm-seta {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 3;
+        width: 30px;
+        height: 30px;
+        border: none;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.88);
+        color: var(--dark);
+        font-size: 20px;
+        line-height: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        opacity: 0;
+        transition: opacity 0.2s, background 0.2s;
+      }
+      .col-seta.prev,
+      .pm-seta.prev {
+        left: 8px;
+      }
+      .col-seta.next,
+      .pm-seta.next {
+        right: 8px;
+      }
+      .col-card:hover .col-seta,
+      .pm-media:hover .pm-seta {
+        opacity: 1;
+      }
+      .col-seta:hover,
+      .pm-seta:hover {
+        background: var(--gold);
+      }
+      .col-dots,
+      .pm-dots {
+        position: absolute;
+        bottom: 10px;
+        left: 0;
+        right: 0;
+        z-index: 3;
+        display: flex;
+        justify-content: center;
+        gap: 5px;
+        pointer-events: none;
+      }
+      .col-dot,
+      .pm-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.55);
+        box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+        transition: background 0.2s, width 0.2s;
+      }
+      .col-dot.on,
+      .pm-dot.on {
+        background: var(--gold);
+        width: 16px;
+        border-radius: 99px;
+      }
+      .col-card.carregando-foto .col-img {
+        opacity: 0.55;
+      }
+      .pm-seta {
+        width: 36px;
+        height: 36px;
+        font-size: 24px;
+      }
+      .pm-dots {
+        bottom: 14px;
+      }
+
+      @media (max-width: 900px) {
+        /* no toque não existe "passar o mouse": as setas ficam sempre visíveis */
+        .col-seta,
+        .pm-seta {
+          opacity: 0.9;
+          width: 26px;
+          height: 26px;
+          font-size: 17px;
+        }
+        .col-seta.prev {
+          left: 4px;
+        }
+        .col-seta.next {
+          right: 4px;
+        }
+      }
+
       /* ─────────────────────────────────────────
          MODAL DO PRODUTO (tela cheia) + LIGHTBOX
          ───────────────────────────────────────── */
@@ -3038,10 +3132,18 @@
         const thumb = p.imagemUrl
           ? `<img src="${p.imagemUrl}" alt="${nome}" class="col-img" loading="lazy" />`
           : `<div class="col-noimg"><span>📷</span><small>Foto em breve</small></div>`;
+        // Peça com mais de uma foto ganha setas e bolinhas no próprio card
+        const total = Number(p.totalFotos) || 1;
+        const galeria = total > 1 && p.imagemUrl
+          ? `<button class="col-seta prev" type="button" aria-label="Foto anterior">‹</button>
+             <button class="col-seta next" type="button" aria-label="Próxima foto">›</button>
+             <div class="col-dots">${Array.from({ length: total }, (_, i) => `<span class="col-dot ${i === 0 ? "on" : ""}"></span>`).join("")}</div>`
+          : "";
         return `
-          <div class="col-card reveal ${stagger}" data-card-id="${p.id || ""}" role="button" tabindex="0" aria-label="Ver detalhes de ${nome.replace(/"/g, "&quot;")}">
+          <div class="col-card reveal ${stagger}" data-card-id="${p.id || ""}" data-total-fotos="${total}" role="button" tabindex="0" aria-label="Ver detalhes de ${nome.replace(/"/g, "&quot;")}">
             <div class="col-thumb">
               ${thumb}
+              ${galeria}
               ${pillHtml(p)}
               <div class="col-overlay">
                 <a href="#encomenda" class="col-overlay-btn" data-produto="${nome.replace(/"/g, "&quot;")}">${esgotado ? "Avisar quando chegar" : "Encomendar"}</a>
@@ -3141,19 +3243,58 @@
         if (!modal.classList.contains("open")) travarScroll(false);
       }
 
-      // Foto em alta resolução: fica num documento separado e só é baixada quando
-      // o cliente abre a peça (a miniatura do card aparece na hora, sem espera).
-      const FOTOS_GRANDES = new Map();
-      function carregarFotoGrande(produtoId) {
-        if (!produtoId) return Promise.resolve("");
-        if (FOTOS_GRANDES.has(produtoId)) return Promise.resolve(FOTOS_GRANDES.get(produtoId));
-        return getDoc(doc(db, "siteFotos", `prod_${produtoId}`))
-          .then(snap => {
-            const grande = snap.exists() ? snap.data().imagem || "" : "";
-            FOTOS_GRANDES.set(produtoId, grande);
-            return grande;
-          })
-          .catch(() => ""); // sem foto grande cadastrada: segue com a miniatura
+      // As fotos ficam guardadas fora do produto e só são baixadas quando o
+      // cliente pede: a capa em alta ao abrir a peça, as demais ao passar de foto.
+      const CACHE_FOTOS = new Map(); // chave -> Promise da imagem/lista
+
+      function buscarDoc(chave, caminho, extrair) {
+        if (!CACHE_FOTOS.has(chave)) {
+          CACHE_FOTOS.set(
+            chave,
+            getDoc(doc(db, "siteFotos", caminho))
+              .then(snap => (snap.exists() ? extrair(snap.data()) : null))
+              .catch(() => null)
+          );
+        }
+        return CACHE_FOTOS.get(chave);
+      }
+      // capa em alta
+      const carregarFotoGrande = (produtoId) =>
+        produtoId ? buscarDoc(`g:${produtoId}`, `prod_${produtoId}`, d => d.imagem || "") : Promise.resolve(null);
+      // miniaturas das fotos 2 em diante (uma leitura serve para o card inteiro)
+      const carregarMinis = (produtoId) =>
+        produtoId
+          ? buscarDoc(`m:${produtoId}`, `prodmini_${produtoId}`, d => (d.fotos || []).filter(f => f && f.fid && f.mini)).then(l => l || [])
+          : Promise.resolve([]);
+      // foto 2 em diante, em alta
+      const carregarGrandeExtra = (produtoId, fid) =>
+        buscarDoc(`g:${produtoId}:${fid}`, `prodgrande_${produtoId}_${fid}`, d => d.imagem || "");
+
+      // Estado da peça aberta em tela cheia
+      let pmProduto = null;
+      let pmFotos = []; // [{ mini, fid }] — fid nulo é a capa
+      let pmIndice = 0;
+
+      function pmImgAtual() {
+        return pmMedia.querySelector("img");
+      }
+
+      async function mostrarFotoModal(i) {
+        if (!pmFotos.length) return;
+        const alvo = ((i % pmFotos.length) + pmFotos.length) % pmFotos.length;
+        pmIndice = alvo;
+        const foto = pmFotos[alvo];
+        const img = pmImgAtual();
+        if (!img) return;
+        const produtoId = pmProduto && pmProduto.id;
+        img.src = foto.mini;
+        pmMedia.querySelectorAll(".pm-dot").forEach((d, k) => d.classList.toggle("on", k === alvo));
+
+        const grande = await (foto.fid ? carregarGrandeExtra(produtoId, foto.fid) : carregarFotoGrande(produtoId));
+        // o cliente pode ter passado de foto (ou fechado) enquanto a grande vinha
+        if (!grande || pmIndice !== alvo || !img.isConnected) return;
+        img.src = grande;
+        if (lightbox.classList.contains("open")) lbImg.src = grande;
       }
 
       function abrirProduto(p) {
@@ -3162,27 +3303,40 @@
         const minimo = Number(p.quantidadeMinima) || 5;
         const esgotado = estoque <= 0;
 
+        pmProduto = p;
+        pmIndice = 0;
+        pmFotos = p.imagemUrl ? [{ mini: p.imagemUrl, fid: null }] : [];
+
         // Foto (ou placeholder) — clicar amplia só a imagem
         pmMedia.innerHTML = "";
         if (p.imagemUrl) {
           const img = document.createElement("img");
           img.src = p.imagemUrl;
           img.alt = nome;
-          // começa com a miniatura e troca pela versão grande assim que ela chegar
-          let fotoAtual = p.imagemUrl;
-          img.addEventListener("click", () => abrirLightbox(fotoAtual, nome));
+          img.addEventListener("click", () => abrirLightbox(img.src, nome));
           pmMedia.appendChild(img);
           const dica = document.createElement("div");
           dica.className = "pm-zoom";
           dica.textContent = "🔍 Toque na foto para ampliar";
           pmMedia.appendChild(dica);
-          carregarFotoGrande(p.id).then(grande => {
-            if (!grande) return;
-            fotoAtual = grande;
-            // só troca se o cliente ainda estiver vendo esta peça
-            if (img.isConnected) img.src = grande;
-            if (lightbox.classList.contains("open")) lbImg.src = grande;
-          });
+
+          mostrarFotoModal(0);
+
+          // Peça com mais de uma foto: setas e bolinhas para navegar
+          if ((Number(p.totalFotos) || 1) > 1) {
+            carregarMinis(p.id).then(extras => {
+              if (!extras.length || pmProduto !== p) return;
+              pmFotos = [{ mini: p.imagemUrl, fid: null }, ...extras.map(f => ({ mini: f.mini, fid: f.fid }))];
+              const setas = document.createElement("div");
+              setas.innerHTML =
+                `<button class="pm-seta prev" type="button" aria-label="Foto anterior">‹</button>` +
+                `<button class="pm-seta next" type="button" aria-label="Próxima foto">›</button>` +
+                `<div class="pm-dots">${pmFotos.map((_, i) => `<span class="pm-dot ${i === 0 ? "on" : ""}"></span>`).join("")}</div>`;
+              [...setas.children].forEach(el => pmMedia.appendChild(el));
+              pmMedia.querySelector(".pm-seta.prev").addEventListener("click", () => mostrarFotoModal(pmIndice - 1));
+              pmMedia.querySelector(".pm-seta.next").addEventListener("click", () => mostrarFotoModal(pmIndice + 1));
+            });
+          }
         } else {
           pmMedia.innerHTML = `<div class="col-noimg"><span>📷</span><small>Foto em breve</small></div>`;
         }
@@ -3232,15 +3386,69 @@
         if (!lightbox.classList.contains("open")) travarScroll(false);
       }
 
+      // ── Passar de foto no próprio card ──
+      async function passarFotoCard(card, passo) {
+        const id = card.getAttribute("data-card-id");
+        const p = PRODUTOS_CACHE.find(x => String(x.id) === id);
+        const img = card.querySelector("img.col-img");
+        if (!p || !img) return;
+        card.classList.add("carregando-foto");
+        const extras = await carregarMinis(id);
+        card.classList.remove("carregando-foto");
+        const todas = [p.imagemUrl, ...extras.map(f => f.mini)].filter(Boolean);
+        if (todas.length < 2) return;
+        const atual = Number(card.dataset.foto || 0);
+        const prox = ((atual + passo) % todas.length + todas.length) % todas.length;
+        card.dataset.foto = String(prox);
+        img.src = todas[prox];
+        card.querySelectorAll(".col-dot").forEach((d, i) => d.classList.toggle("on", i === prox));
+      }
+
       // Clique no card abre o detalhe (os botões de encomenda seguem o fluxo normal)
       document.addEventListener("click", (e) => {
         if (e.target.closest("[data-produto]")) return;
+        const seta = e.target.closest(".col-seta");
+        if (seta) {
+          // seta é só para trocar a foto — não abre o detalhe
+          e.stopPropagation();
+          passarFotoCard(seta.closest(".col-card"), seta.classList.contains("next") ? 1 : -1);
+          return;
+        }
         const card = e.target.closest(".col-card[data-card-id]");
         if (!card) return;
+        if (card.dataset.arrastou === "1") { card.dataset.arrastou = "0"; return; }
         const p = PRODUTOS_CACHE.find(x => String(x.id) === card.getAttribute("data-card-id"));
         if (p) abrirProduto(p);
       });
+
+      // Arrastar para o lado troca a foto no celular
+      let toqueX = 0, toqueY = 0;
+      document.addEventListener("touchstart", (e) => {
+        const t = e.changedTouches[0];
+        toqueX = t.clientX; toqueY = t.clientY;
+      }, { passive: true });
+      document.addEventListener("touchend", (e) => {
+        const t = e.changedTouches[0];
+        const dx = t.clientX - toqueX;
+        const dy = t.clientY - toqueY;
+        if (Math.abs(dx) < 45 || Math.abs(dx) < Math.abs(dy)) return;
+
+        // dentro do detalhe em tela cheia
+        if (e.target.closest(".pm-media") && pmFotos.length > 1) {
+          mostrarFotoModal(pmIndice + (dx < 0 ? 1 : -1));
+          return;
+        }
+        const card = e.target.closest(".col-card[data-card-id]");
+        if (!card || Number(card.dataset.totalFotos || 1) < 2) return;
+        card.dataset.arrastou = "1"; // impede que o arrasto abra o detalhe
+        passarFotoCard(card, dx < 0 ? 1 : -1);
+      }, { passive: true });
       document.addEventListener("keydown", (e) => {
+        // setas do teclado passam de foto no detalhe
+        if (modal.classList.contains("open") && pmFotos.length > 1) {
+          if (e.key === "ArrowRight") { mostrarFotoModal(pmIndice + 1); return; }
+          if (e.key === "ArrowLeft") { mostrarFotoModal(pmIndice - 1); return; }
+        }
         if (e.key === "Escape") {
           if (lightbox.classList.contains("open")) fecharLightbox();
           else if (modal.classList.contains("open")) fecharModal();
